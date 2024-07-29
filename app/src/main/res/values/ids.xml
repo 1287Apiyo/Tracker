@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="KES" type="id" />
+    <item name="KES2" type="id" />
+    <item name="KES3" type="id" />
+    <item name="textKES4" type="id" />
+    <item name="KES5" type="id" />
+    <item name="Income" type="id" />
+    <item name="Expense" type="id" />
+    <item name="Add" type="id" />
+    <item name="AddIncome" type="id" />
+    <item name="AddExpense" type="id" />
+    <item name="LastAdded" type="id" />
+    <item name="Salary" type="id" />
+    <item name="Transport" type="id" />
+    <item name="Shopping" type="id" />
+    <item name="Upwork" type="id" />
+    <item name="Food" type="id" />
+    <item name="Paypal" type="id" />
+    <item name="KES6" type="id" />
+    <item name="spinnerIncomeSource" type="id" />
+    <item name="editTextAmount" type="id" />
+    <item name="editTextDate" type="id" />
+    <item name="buttonAddIncome" type="id" />
+</resources>
