@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class TransactionsActivity extends AppCompatActivity {
+public class TransactionsActivity extends AppCompatActivity implements TransactionsAdapter.OnTransactionDeleteListener {
 
     private static final int REQUEST_CODE_ADD_TRANSACTION = 1; // Request code for starting the add transaction activity
     private RecyclerView recyclerView;
@@ -51,10 +51,16 @@ public class TransactionsActivity extends AppCompatActivity {
     private void updateTransactionList() {
         Cursor cursor = databaseHelper.getAllTransactions();
         if (transactionsAdapter == null) {
-            transactionsAdapter = new TransactionsAdapter(this, cursor);
+            transactionsAdapter = new TransactionsAdapter(this, cursor, this);
             recyclerView.setAdapter(transactionsAdapter);
         } else {
             transactionsAdapter.swapCursor(cursor); // Update adapter with new data
         }
+    }
+
+    @Override
+    public void onTransactionDelete(int id) {
+        databaseHelper.deleteTransaction(id);
+        updateTransactionList(); // Refresh the data after deletion
     }
 }

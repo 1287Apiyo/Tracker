@@ -1,5 +1,6 @@
 package com.example.tracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,12 +42,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addTransaction(Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insert = "INSERT INTO " + TABLE_TRANSACTIONS + " ("
-                + COLUMN_DATE + ", "
-                + COLUMN_CATEGORY + ", "
-                + COLUMN_AMOUNT + ", "
-                + COLUMN_TIMESTAMP + ") VALUES (?, ?, ?, ?)";
-        db.execSQL(insert, new Object[]{transaction.getDate(), transaction.getCategory(), transaction.getAmount(), transaction.getTimestamp()});
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_DATE, transaction.getDate());
+        values.put(COLUMN_CATEGORY, transaction.getCategory());
+        values.put(COLUMN_AMOUNT, transaction.getAmount());
+        values.put(COLUMN_TIMESTAMP, transaction.getTimestamp());
+        db.insert(TABLE_TRANSACTIONS, null, values);
         db.close();
     }
 

@@ -28,4 +28,6 @@
     <item name="textViewAmount" type="id" />
     <item name="textViewTimestamp" type="id" />
     <item name="imageViewDelete" type="id" />
+    <item name="RecyclerViewTransactions" type="id" />
+    <item name="textViewExpenses" type="id" />
 </resources>

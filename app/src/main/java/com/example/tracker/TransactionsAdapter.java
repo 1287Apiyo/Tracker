@@ -6,17 +6,24 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
+    public interface OnTransactionDeleteListener {
+        void onTransactionDelete(int id);
+    }
+
     private Context context;
     private Cursor cursor;
+    private OnTransactionDeleteListener listener;
 
-    public TransactionsAdapter(Context context, Cursor cursor) {
+    public TransactionsAdapter(Context context, Cursor cursor, OnTransactionDeleteListener listener) {
         this.context = context;
         this.cursor = cursor;
+        this.listener = listener;
     }
 
     @Override
@@ -32,11 +39,16 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             @SuppressLint("Range") String category = cursor.getString(cursor.getColumnIndex("category"));
             @SuppressLint("Range") double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
             @SuppressLint("Range") String timestamp = cursor.getString(cursor.getColumnIndex("timestamp"));
+            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("_id"));
 
             holder.textViewDateHeader.setText(date);
             holder.textViewCategory.setText(category);
             holder.textViewAmount.setText(String.valueOf(amount));
             holder.textViewTimestamp.setText(timestamp);
+
+            holder.imageViewDelete.setOnClickListener(v -> {
+                listener.onTransactionDelete(id);
+            });
         }
     }
 
@@ -50,6 +62,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         public TextView textViewCategory;
         public TextView textViewAmount;
         public TextView textViewTimestamp;
+        public ImageView imageViewDelete;
 
         public TransactionViewHolder(View itemView) {
             super(itemView);
@@ -57,6 +70,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             textViewCategory = itemView.findViewById(R.id.textViewCategory);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewTimestamp = itemView.findViewById(R.id.textViewTimestamp);
+            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }
 

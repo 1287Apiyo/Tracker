@@ -31,6 +31,11 @@ public class CategoryDialogFragment extends DialogFragment {
         categories.add("Finance");
         categories.add("Travel");
         categories.add("Shopping");
+        categories.add("Hygiene");
+        categories.add("Rent");
+        categories.add("Subscriptions");
+
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_category, categories);
         listViewCategories.setAdapter(adapter);

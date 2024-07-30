@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements TransactionsAdapter.OnTransactionDeleteListener {
 
     private static final String TAG = "HomeActivity";
     private DatabaseHelper databaseHelper;
@@ -72,7 +72,13 @@ public class Home extends AppCompatActivity {
 
     private void loadRecentTransactions() {
         Cursor cursor = databaseHelper.getRecentTransactions(5); // Fetch 5 most recent transactions
-        transactionsAdapter = new TransactionsAdapter(this, cursor);
+        transactionsAdapter = new TransactionsAdapter(this, cursor, this);
         recyclerViewRecentTransactions.setAdapter(transactionsAdapter);
+    }
+
+    @Override
+    public void onTransactionDelete(int id) {
+        databaseHelper.deleteTransaction(id);
+        loadRecentTransactions(); // Refresh the data after deletion
     }
 }

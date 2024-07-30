@@ -69,5 +69,8 @@
         android:contentDescription="Delete"
         android:layout_marginTop="8dp"
         android:layout_gravity="end"
+        android:clickable="true"
+        android:focusable="true"
         app:tint="#CD7F32" />
+
 </LinearLayout>
