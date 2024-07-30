@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter"
         android:text="Add"
-        android:textColor="#FFFFFF"
+        android:textColor="#A9FFE4"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
             android:id="@+id/Income"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#A9FFE4"
+            android:background="#C0FFEC"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"/>
 
@@ -46,7 +46,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/inter"
             android:text="Add Income"
-            android:textColor="#000000"
+            android:textColor="#CD7F32"
             android:textSize="11sp" />
     </RelativeLayout>
 
@@ -63,7 +63,7 @@
             android:id="@+id/Expense"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#CD7F32"
+            android:background="#DBA279"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"/>
 
@@ -74,7 +74,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/inter"
             android:text="Add Expenses"
-            android:textColor="#000000"
+            android:textColor="#A9FFE4"
             android:textSize="11sp" />
     </RelativeLayout>
 
@@ -89,7 +89,7 @@
         android:layout_marginTop="64dp"
         android:fontFamily="@font/inter"
         android:text="Last Added"
-        android:textColor="#FFFFFF"
+        android:textColor="#A9FFE4"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"

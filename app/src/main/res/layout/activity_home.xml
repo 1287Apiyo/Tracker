@@ -1,10 +1,11 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="ExtraText">
 
     <!-- Hello Anne Text -->
     <TextView
@@ -279,7 +280,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#FFFFFF"
+            android:background="#DBA279"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -289,7 +290,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/inter"
                 android:text="Transaction 1"
-                android:textColor="#000000"
+                android:textColor="#A9FFE4"
                 android:textSize="14sp" />
 
             <TextView
@@ -297,7 +298,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter"
                 android:text="KES 1,000"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -319,8 +320,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#CD7F32"
+        android:backgroundTint="#F4FFF9"
+        app:tint="@android:color/black"
         android:src="@android:drawable/ic_menu_add"
         tools:ignore="SpeakableTextPresentCheck" />
+
+
 </RelativeLayout>
 

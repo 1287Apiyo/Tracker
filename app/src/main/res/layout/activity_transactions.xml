@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TransactionsActivity"
 >
 
@@ -37,16 +38,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="Date: Today"
+            android:text=" Today"
             android:textColor="#A9FFE4"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:layout_marginBottom="4dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#CD7F32"
+            android:background="#DBA279"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -64,7 +65,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter"
                 android:text="Amount: KES 1,000"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -73,16 +74,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="Date: Today"
+            android:text="12-12-2024"
             android:textColor="#A9FFE4"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:layout_marginBottom="4dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#CD7F32"
+            android:background="#DBA279"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -100,7 +101,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter"
                 android:text="Amount: KES 2,500"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -109,16 +110,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="Date: Today"
+            android:text="12-01-2025"
             android:textColor="#A9FFE4"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:layout_marginBottom="4dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#CD7F32"
+            android:background="#DBA279"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -136,7 +137,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter"
                 android:text="Amount: KES 3,000"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -154,7 +155,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#CD7F32"
+        android:backgroundTint="#F4FFF9"
+       app:tint="@android:color/black"
         android:src="@android:drawable/ic_menu_add"
         tools:ignore="SpeakableTextPresentCheck" />
 </RelativeLayout>
