@@ -320,7 +320,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#F4FFF9"
+        android:backgroundTint="#A9FFE4"
         app:tint="@android:color/black"
         android:src="@android:drawable/ic_menu_add"
         tools:ignore="SpeakableTextPresentCheck" />
