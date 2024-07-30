@@ -23,4 +23,9 @@
     <item name="editTextDate" type="id" />
     <item name="buttonAddIncome" type="id" />
     <item name="transaction_text_view" type="id" />
+    <item name="textViewDateHeader" type="id" />
+    <item name="textViewCategory" type="id" />
+    <item name="textViewAmount" type="id" />
+    <item name="textViewTimestamp" type="id" />
+    <item name="imageViewDelete" type="id" />
 </resources>

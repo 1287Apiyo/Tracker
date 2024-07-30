@@ -33,25 +33,13 @@ public class add_transaction extends AppCompatActivity {
         editTextAmount = findViewById(R.id.editTextAmount);
         buttonSaveTransaction = findViewById(R.id.buttonSaveTransaction);
 
-        // Setup AutoCompleteTextView
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.category_array));
         autoCompleteCategory.setAdapter(adapter);
 
-        // Set date picker on date field
-        editTextDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
+        editTextDate.setOnClickListener(v -> showDatePickerDialog());
 
-        buttonSaveTransaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveTransaction();
-            }
-        });
+        buttonSaveTransaction.setOnClickListener(v -> saveTransaction());
     }
 
     private void showDatePickerDialog() {
@@ -90,8 +78,11 @@ public class add_transaction extends AppCompatActivity {
             return;
         }
 
+        // Generate timestamp
+        String timestamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+
         // Save transaction to database
-        Transaction transaction = new Transaction(date, category, amountValue);
+        Transaction transaction = new Transaction(date, category, amountValue, timestamp);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.addTransaction(transaction);
 
@@ -100,6 +91,7 @@ public class add_transaction extends AppCompatActivity {
         resultIntent.putExtra("date", date);
         resultIntent.putExtra("category", category);
         resultIntent.putExtra("amount", amount);
+        resultIntent.putExtra("timestamp", timestamp); // Include timestamp
         setResult(RESULT_OK, resultIntent);
 
         Toast.makeText(this, "Transaction added", Toast.LENGTH_SHORT).show();

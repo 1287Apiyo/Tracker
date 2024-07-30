@@ -4,11 +4,13 @@ public class Transaction {
     private String date;
     private String category;
     private double amount;
+    private String timestamp; // New attribute
 
-    public Transaction(String date, String category, double amount) {
+    public Transaction(String date, String category, double amount, String timestamp) {
         this.date = date;
         this.category = category;
         this.amount = amount;
+        this.timestamp = timestamp;
     }
 
     public String getDate() {
@@ -33,5 +35,13 @@ public class Transaction {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

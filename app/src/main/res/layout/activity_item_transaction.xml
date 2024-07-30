@@ -1,11 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#DBA279"
-    android:layout_margin="20dp">
+    android:padding="0dp"
+    android:background="#000000"
+    android:layout_margin="15dp">
 
+    <!-- Date TextView outside the box -->
     <TextView
         android:id="@+id/textViewDateHeader"
         android:layout_width="wrap_content"
@@ -15,18 +17,57 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
-    <TextView
-        android:id="@+id/textViewCategory"
-        android:layout_width="wrap_content"
+    <!-- Box containing Category, Amount, and Timestamp -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#A9FFE4"
-        android:textSize="14sp" />
+        android:orientation="vertical"
+        android:background="#808482"
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/textViewAmount"
+        <!-- Inner LinearLayout for Category, Amount, and Timestamp -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- Timestamp TextView -->
+        <TextView
+            android:id="@+id/textViewTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:gravity="start" />
+    </LinearLayout>
+
+    <!-- Delete Button aligned to the end -->
+    <ImageView
+        android:id="@+id/imageViewDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="Delete"
         android:layout_marginTop="8dp"
-        android:textColor="#A9FFE4"
-        android:textSize="14sp" />
+        android:layout_gravity="end"
+        app:tint="#CD7F32" />
 </LinearLayout>
