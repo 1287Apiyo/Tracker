@@ -22,4 +22,5 @@
     <item name="editTextAmount" type="id" />
     <item name="editTextDate" type="id" />
     <item name="buttonAddIncome" type="id" />
+    <item name="transaction_text_view" type="id" />
 </resources>

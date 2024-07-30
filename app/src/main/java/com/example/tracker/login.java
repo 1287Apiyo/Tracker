@@ -8,18 +8,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class login extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
     private Button loginButton, signUpButton;
     private TextView forgotPasswordTextView;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
         emailEditText = findViewById(R.id.email_edit_text);
@@ -65,14 +72,28 @@ public class login extends AppCompatActivity {
             return;
         }
 
-        // TODO: Add your authentication logic here
-        // For now, we'll just show a success message
-        Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+        // Firebase authentication logic
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        updateUI(null);
+                    }
+                });
+    }
 
-        // Navigate to the Home activity
-        Intent intent = new Intent(login.this, Home.class);
-        startActivity(intent);
-        finish();
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            // Navigate to the Home activity
+            Intent intent = new Intent(login.this, Home.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void handleSignUp() {
