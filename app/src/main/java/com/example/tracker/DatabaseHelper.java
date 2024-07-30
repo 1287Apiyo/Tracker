@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addTransaction(Transaction transaction) {
+    public long addTransaction(Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, transaction.getDate());
@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_AMOUNT, transaction.getAmount());
         db.insert(TABLE_TRANSACTIONS, null, values);
         db.close();
+        return 0;
     }
 
     // Add methods for retrieving, updating, and deleting transactions as needed

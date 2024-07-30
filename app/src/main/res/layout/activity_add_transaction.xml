@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,16 +30,17 @@
         android:textColorHint="#CD7F32"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <Spinner
-        android:id="@+id/spinnerCategory"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:spinnerMode="dropdown"
-        android:theme="@style/SpinnerStyle"
+        android:hint="Select or Enter Category"
+        android:textColor="#000000"
+        android:textColorHint="#CD7F32"
+        android:background="@android:color/white"
+        android:padding="10dp"
         tools:ignore="TouchTargetSizeCheck" />
-
-
 
     <EditText
         android:id="@+id/editTextAmount"

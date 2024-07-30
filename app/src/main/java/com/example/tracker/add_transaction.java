@@ -2,11 +2,10 @@ package com.example.tracker;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class add_transaction extends AppCompatActivity {
 
     private EditText editTextDate, editTextAmount;
-    private Spinner spinnerCategory;
+    private AutoCompleteTextView autoCompleteCategory;
     private Button buttonSaveTransaction;
 
     @Override
@@ -23,27 +22,14 @@ public class add_transaction extends AppCompatActivity {
         setContentView(R.layout.activity_add_transaction);
 
         editTextDate = findViewById(R.id.editTextDate);
-        spinnerCategory = findViewById(R.id.spinnerCategory);
+        autoCompleteCategory = findViewById(R.id.autoCompleteCategory);
         editTextAmount = findViewById(R.id.editTextAmount);
         buttonSaveTransaction = findViewById(R.id.buttonSaveTransaction);
 
-        // Setup Spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapter);
-
-        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Handle category selection if needed
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Handle case where no item is selected if needed
-            }
-        });
+        // Setup AutoCompleteTextView
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.category_array));
+        autoCompleteCategory.setAdapter(adapter);
 
         buttonSaveTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +41,7 @@ public class add_transaction extends AppCompatActivity {
 
     private void saveTransaction() {
         String date = editTextDate.getText().toString().trim();
-        String category = spinnerCategory.getSelectedItem().toString();
+        String category = autoCompleteCategory.getText().toString().trim();
         String amount = editTextAmount.getText().toString().trim();
 
         if (date.isEmpty() || category.isEmpty() || amount.isEmpty()) {
