@@ -55,6 +55,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_TRANSACTIONS + " ORDER BY " + COLUMN_DATE + " DESC", null);
     }
 
+    public Cursor getRecentTransactions(int limit) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                TABLE_TRANSACTIONS,          // Table name
+                null,                        // Columns (null for all)
+                null,                        // Selection (null for all)
+                null,                        // Selection args (null for all)
+                null,                        // Group by (null for none)
+                null,                        // Having (null for none)
+                COLUMN_TIMESTAMP + " DESC",  // Order by timestamp in descending order
+                String.valueOf(limit)        // Limit the number of results
+        );
+    }
+
     public void deleteTransaction(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TRANSACTIONS, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
