@@ -70,7 +70,7 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
 
         // Set the welcome message
         TextView textWelcome = findViewById(R.id.textWelcome);
-        textWelcome.setText("Hello " + username);
+        textWelcome.setText("Welcome " + username);
     }
 
     @Override

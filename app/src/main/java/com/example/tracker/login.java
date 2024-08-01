@@ -1,6 +1,7 @@
 package com.example.tracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -62,6 +63,7 @@ public class login extends AppCompatActivity {
     private void handleLogin() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+        String username = usernameEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Please enter your email");
@@ -73,12 +75,18 @@ public class login extends AppCompatActivity {
             return;
         }
 
+        if (TextUtils.isEmpty(username)) {
+            usernameEditText.setError("Please enter your username");
+            return;
+        }
+
         // Firebase authentication logic
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
+                        saveUsernameToPreferences(username);
                         updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
@@ -86,6 +94,13 @@ public class login extends AppCompatActivity {
                         updateUI(null);
                     }
                 });
+    }
+
+    private void saveUsernameToPreferences(String username) {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("username", username);
+        editor.apply();
     }
 
     private void updateUI(FirebaseUser user) {
