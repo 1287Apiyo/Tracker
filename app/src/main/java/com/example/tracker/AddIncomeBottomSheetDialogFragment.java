@@ -19,15 +19,15 @@ public class AddIncomeBottomSheetDialogFragment extends BottomSheetDialogFragmen
     private EditText editTextDate;
     private EditText editTextAmount;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_bottom_sheet_add_income, container, false);
 
-        Spinner spinnerIncomeSource = view.findViewById(R.id.spinnerIncomeSource); // Updated ID
-        editTextAmount = view.findViewById(R.id.editTextAmount); // Updated ID
-        editTextDate = view.findViewById(R.id.editTextDate); // Updated ID
-        Button buttonAddIncome = view.findViewById(R.id.buttonAddIncome); // Updated ID
+        Spinner spinnerIncomeSource = view.findViewById(R.id.spinnerIncomeSource);
+        editTextAmount = view.findViewById(R.id.editTextAmount);
+        editTextDate = view.findViewById(R.id.editTextDate);
+        Button buttonAddIncome = view.findViewById(R.id.buttonAddIncome);
 
         // Set the date picker dialog on click for the date field
         editTextDate.setOnClickListener(v -> showDatePicker());
@@ -35,14 +35,20 @@ public class AddIncomeBottomSheetDialogFragment extends BottomSheetDialogFragmen
         buttonAddIncome.setOnClickListener(v -> {
             String amount = editTextAmount.getText().toString();
             String date = editTextDate.getText().toString();
-            String source = spinnerIncomeSource.getSelectedItem().toString(); // Use source instead of category
+            String source = spinnerIncomeSource.getSelectedItem().toString();
+
+            // Check if all required fields are filled
+            if (amount.isEmpty() || date.isEmpty() || source.isEmpty()) {
+                // Handle validation failure (e.g., show a Toast)
+                return;
+            }
 
             // Add the income to DataHolder
             DataHolder.getInstance().addIncome(new Income(amount, date, source));
 
             // Notify the adapter of the new data
-            if (getActivity() instanceof add) {
-               add activity = (add) getActivity();
+            if (getActivity() instanceof add) { // Ensure the correct activity
+                add activity = (add) getActivity();
                 activity.incomeAdapter.notifyDataSetChanged();
                 activity.recyclerViewIncome.scrollToPosition(activity.incomeAdapter.getItemCount() - 1); // Scroll to the last added item
             }
