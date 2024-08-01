@@ -15,9 +15,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class login extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText;
-    private Button loginButton, signUpButton;
-    private TextView forgotPasswordTextView;
+    private EditText usernameEditText, emailEditText, passwordEditText;
+    private Button loginButton;
+    private TextView signUpTextView, forgotPasswordTextView;
     private FirebaseAuth mAuth;
 
     @Override
@@ -29,11 +29,12 @@ public class login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
-        emailEditText = findViewById(R.id.email_edit_text);
-        passwordEditText = findViewById(R.id.password_edit_text);
-        loginButton = findViewById(R.id.button);
-        signUpButton = findViewById(R.id.button3);
-        forgotPasswordTextView = findViewById(R.id.textView22);
+        usernameEditText = findViewById(R.id.login_username_edit_text);
+        emailEditText = findViewById(R.id.login_email_edit_text);
+        passwordEditText = findViewById(R.id.login_password_edit_text);
+        loginButton = findViewById(R.id.login_button);
+        signUpTextView = findViewById(R.id.dont_have_account_textview);
+        forgotPasswordTextView = findViewById(R.id.forgot_password_textview);
 
         // Set up button click listeners
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +44,7 @@ public class login extends AppCompatActivity {
             }
         });
 
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleSignUp();

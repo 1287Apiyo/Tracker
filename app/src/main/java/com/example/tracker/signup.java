@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class signup extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText, confirmPasswordEditText;
+    private EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private Button signupButton;
     private TextView alreadyHaveAccountTextView;
     private FirebaseAuth mAuth;
@@ -31,6 +31,7 @@ public class signup extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
+        usernameEditText = findViewById(R.id.signup_username_edit_text);
         emailEditText = findViewById(R.id.signup_email_edit_text);
         passwordEditText = findViewById(R.id.signup_password_edit_text);
         confirmPasswordEditText = findViewById(R.id.confirm_password_edit_text);
@@ -54,11 +55,17 @@ public class signup extends AppCompatActivity {
     }
 
     private void handleSignUp() {
+        String username = usernameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
         // Input validation
+        if (TextUtils.isEmpty(username)) {
+            usernameEditText.setError("Please enter your username");
+            return;
+        }
+
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Please enter your email");
             return;
@@ -85,7 +92,7 @@ public class signup extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign up success, add user to Firestore and update UI
                         FirebaseUser user = mAuth.getCurrentUser();
-                        addUserToFirestore(user);
+                        addUserToFirestore(user, username);
                         updateUI(user);
                     } else {
                         // If sign up fails, display a message to the user.
@@ -95,11 +102,12 @@ public class signup extends AppCompatActivity {
                 });
     }
 
-    private void addUserToFirestore(FirebaseUser user) {
+    private void addUserToFirestore(FirebaseUser user, String username) {
         if (user == null) return;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userData = new HashMap<>();
+        userData.put("username", username);
         userData.put("email", user.getEmail());
 
         db.collection("users").document(user.getUid())

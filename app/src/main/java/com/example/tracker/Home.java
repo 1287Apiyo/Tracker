@@ -2,6 +2,7 @@ package com.example.tracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +63,14 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         recyclerViewRecentTransactions = findViewById(R.id.recyclerViewTransactions);
         recyclerViewRecentTransactions.setLayoutManager(new LinearLayoutManager(this));
         loadRecentTransactions();
+
+        // Retrieve username from SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String username = preferences.getString("username", "User"); // Default to "User" if no username is found
+
+        // Set the welcome message
+        TextView textWelcome = findViewById(R.id.textWelcome);
+        textWelcome.setText("Hello " + username);
     }
 
     @Override
