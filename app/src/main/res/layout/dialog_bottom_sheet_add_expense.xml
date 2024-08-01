@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#80FFFFFF"
-    tools:context=".activity_dialog_add_expense">
+    tools:context=".AddExpenseBottomSheetDialogFragment">
 
     <!-- Expense Source Spinner -->
     <TextView

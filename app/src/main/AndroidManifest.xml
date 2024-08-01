@@ -33,7 +33,7 @@
             android:name=".Home"
             android:exported="true" />
         <activity
-            android:name=".dialog_add_income"
+            android:name=".AddIncomeBottomSheetDialogFragment"
             android:exported="true" />
         <activity
             android:name=".signup"

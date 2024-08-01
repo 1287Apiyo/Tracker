@@ -8,8 +8,14 @@
         <item>Entertainment</item>
         <item>Others</item>
     </string-array>
-        <string-array name="expense_categories">Shopping Transport Food Leisure E ntertainment
-            Other
+        <string-array name="expense_categories">
+            <item>Shopping</item>
+            <item> Transport </item>
+            <item> Food</item>
+            <item>Entertainment</item>
+            <item> Leisure </item>
+            <item>
+            Other</item>
         </string-array>
     </resources>
 
