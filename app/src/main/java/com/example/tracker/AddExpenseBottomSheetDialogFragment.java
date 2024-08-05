@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.Calendar;
 
@@ -17,39 +18,39 @@ public class AddExpenseBottomSheetDialogFragment extends BottomSheetDialogFragme
 
     private EditText editTextDate;
     private EditText editTextAmount;
+    private Spinner spinnerExpenseCategory;
+    private TransactionViewModel transactionViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_bottom_sheet_add_expense, container, false);
 
-        EditText editTextAmount = view.findViewById(R.id.editTextAmount);
+        editTextAmount = view.findViewById(R.id.editTextAmount);
         editTextDate = view.findViewById(R.id.editTextDate);
-        Spinner spinnerExpenseCategory = view.findViewById(R.id.spinnerExpenseSource);
+        spinnerExpenseCategory = view.findViewById(R.id.spinnerExpenseSource);
         Button buttonAddExpense = view.findViewById(R.id.buttonAddExpense);
+
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
         // Set the date picker dialog on click for the date field
         editTextDate.setOnClickListener(v -> showDatePicker());
 
         buttonAddExpense.setOnClickListener(v -> {
-            String amount = editTextAmount.getText().toString();
+            String amountStr = editTextAmount.getText().toString();
             String date = editTextDate.getText().toString();
             String category = spinnerExpenseCategory.getSelectedItem().toString();
 
-            // Check if all required fields are filled
-            if (amount.isEmpty() || date.isEmpty() || category.isEmpty()) {
+            // Validate input
+            if (amountStr.isEmpty() || date.isEmpty() || category.isEmpty()) {
                 // Handle validation failure (e.g., show a Toast)
                 return;
             }
 
-            // Add the expense to DataHolder
-            DataHolder.getInstance().addExpense(new Expense(amount, date, category));
+            double amount = Double.parseDouble(amountStr);
 
-            // Notify the adapter of the new data
-            if (getActivity() instanceof add) { // Ensure the correct activity
-                add activity = (add) getActivity();
-                activity.expenseAdapter.notifyDataSetChanged();
-                activity.recyclerViewExpense.scrollToPosition(activity.expenseAdapter.getItemCount() - 1); // Scroll to the last added item
-            }
+            // Add the expense to the database
+            Expense expense = new Expense(amount, date, category);
+            transactionViewModel.insert(expense);
 
             dismiss();
         });

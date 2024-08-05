@@ -9,51 +9,56 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder> {
+public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeViewHolder> {
 
-    private Context context;
-    private List<Income> incomeList;
+    private final LayoutInflater inflater;
+    private List<Income> incomes;
 
-    public IncomeAdapter(Context context, List<Income> incomeList) {
-        this.context = context;
-        this.incomeList = incomeList;
+    public IncomeAdapter(Context context) {
+        this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_income, parent, false);
-        return new ViewHolder(view);
+    public IncomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = inflater.inflate(R.layout.item_income, parent, false);
+        return new IncomeViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Income income = incomeList.get(position);
-        holder.textViewAmount.setText(income.getAmount());
-        holder.textViewDate.setText(income.getDate());
-        holder.textViewCategory.setText(income.getCategory());
+    public void onBindViewHolder(@NonNull IncomeViewHolder holder, int position) {
+        if (incomes != null) {
+            Income current = incomes.get(position);
+            holder.bind(current);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return incomeList.size();
+        return incomes != null ? incomes.size() : 0;
     }
 
-    public void addIncome(Income newIncome) {
-        incomeList.add(newIncome);
-        notifyItemInserted(incomeList.size() - 1);
+    public void setIncomes(List<Income> incomes) {
+        this.incomes = incomes;
+        notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewAmount;
-        public TextView textViewDate;
-        public TextView textViewCategory;
+    class IncomeViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewAmount;
+        private final TextView textViewDate;
+        private final TextView textViewSource;
 
-        public ViewHolder(@NonNull View itemView) {
+        public IncomeViewHolder(View itemView) {
             super(itemView);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewDate = itemView.findViewById(R.id.textDate);
-            textViewCategory = itemView.findViewById(R.id.textViewCategory);
+            textViewSource = itemView.findViewById(R.id.textViewCategory);
+        }
+
+        public void bind(Income income) {
+            textViewAmount.setText(String.valueOf(income.getAmount()));
+            textViewDate.setText(income.getDate());
+            textViewSource.setText(income.getSource());
         }
     }
 }

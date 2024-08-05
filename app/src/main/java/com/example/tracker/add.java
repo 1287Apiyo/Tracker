@@ -3,6 +3,7 @@ package com.example.tracker;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -11,10 +12,11 @@ public class add extends AppCompatActivity {
 
     private static final String TAG = "AddActivity";
 
-    public RecyclerView recyclerViewIncome;  // Public to be accessed outside if needed
-    public RecyclerView recyclerViewExpense; // Public to be accessed outside if needed
-    public IncomeAdapter incomeAdapter;       // Public to be accessed outside if needed
-    public ExpenseAdapter expenseAdapter;     // Public to be accessed outside if needed
+    private RecyclerView recyclerViewIncome;
+    private RecyclerView recyclerViewExpense;
+    private IncomeAdapter incomeAdapter;
+    private ExpenseAdapter expenseAdapter;
+    private TransactionViewModel transactionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,9 @@ public class add extends AppCompatActivity {
         setContentView(R.layout.activity_add);
 
         Log.d(TAG, "Add activity started");
+
+        // Initialize ViewModel
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
         // Initialize toolbar buttons
         MaterialToolbar buttonAddIncome = findViewById(R.id.Income);
@@ -32,12 +37,23 @@ public class add extends AppCompatActivity {
         recyclerViewExpense = findViewById(R.id.recyclerViewTransactionsExpense);
 
         recyclerViewIncome.setLayoutManager(new LinearLayoutManager(this));
-        incomeAdapter = new IncomeAdapter(this, DataHolder.getInstance().getIncomes());
+        incomeAdapter = new IncomeAdapter(this);
         recyclerViewIncome.setAdapter(incomeAdapter);
 
         recyclerViewExpense.setLayoutManager(new LinearLayoutManager(this));
-        expenseAdapter = new ExpenseAdapter(this, DataHolder.getInstance().getExpenses());
+        expenseAdapter = new ExpenseAdapter(this);
         recyclerViewExpense.setAdapter(expenseAdapter);
+
+        // Observe data changes
+        transactionViewModel.getAllIncomes().observe(this, incomes -> {
+            incomeAdapter.setIncomes(incomes);
+            recyclerViewIncome.scrollToPosition(incomeAdapter.getItemCount() - 1);
+        });
+
+        transactionViewModel.getAllExpenses().observe(this, expenses -> {
+            expenseAdapter.setExpenses(expenses);
+            recyclerViewExpense.scrollToPosition(expenseAdapter.getItemCount() - 1);
+        });
 
         // Set button click listeners
         buttonAddIncome.setOnClickListener(v -> {

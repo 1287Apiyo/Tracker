@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,33 +64,34 @@ public class login extends AppCompatActivity {
     private void handleLogin() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-        String username = usernameEditText.getText().toString().trim();
+        String username = usernameEditText.getText().toString().trim(); // Get username from EditText
 
+        // Validate inputs
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Please enter your email");
             return;
         }
-
         if (TextUtils.isEmpty(password)) {
             passwordEditText.setError("Please enter your password");
             return;
         }
-
         if (TextUtils.isEmpty(username)) {
             usernameEditText.setError("Please enter your username");
             return;
         }
 
-        // Firebase authentication logic
+        // Start Firebase authentication
+        long startTime = System.currentTimeMillis(); // Start timer
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                    long endTime = System.currentTimeMillis(); // End timer
+                    Log.d("LoginTime", "Firebase login time: " + (endTime - startTime) + "ms");
+
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         saveUsernameToPreferences(username);
                         updateUI(user);
                     } else {
-                        // If sign in fails, display a message to the user.
                         Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }

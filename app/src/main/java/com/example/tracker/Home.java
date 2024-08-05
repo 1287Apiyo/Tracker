@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Home extends AppCompatActivity implements TransactionsAdapter.OnTransactionDeleteListener {
@@ -21,12 +24,18 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
     private DatabaseHelper databaseHelper;
     private RecyclerView recyclerViewRecentTransactions;
     private TransactionsAdapter transactionsAdapter;
+    private TextView textWelcome;
+    private TextView balanceTextView;
+    private TransactionViewModel transactionViewModel;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Initialize ViewModel
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -69,8 +78,17 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         String username = preferences.getString("username", "User"); // Default to "User" if no username is found
 
         // Set the welcome message
-        TextView textWelcome = findViewById(R.id.textWelcome);
+        textWelcome = findViewById(R.id.textWelcome);
         textWelcome.setText("Welcome " + username);
+
+        // Initialize balance TextView
+        balanceTextView = findViewById(R.id.balanceTextView);
+
+        // Observe the total balance LiveData
+        transactionViewModel.getTotalBalance().observe(this, totalBalance -> {
+            // Update the UI with the total balance
+            balanceTextView.setText(String.format("KES %.2f", totalBalance));
+        });
     }
 
     @Override

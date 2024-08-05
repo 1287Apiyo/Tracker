@@ -9,51 +9,56 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
+public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder> {
 
-    private Context context;
-    private List<Expense> expenseList;
+    private final LayoutInflater inflater;
+    private List<Expense> expenses;
 
-    public ExpenseAdapter(Context context, List<Expense> expenseList) {
-        this.context = context;
-        this.expenseList = expenseList;
+    public ExpenseAdapter(Context context) {
+        this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_expense, parent, false);
-        return new ViewHolder(view);
+    public ExpenseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = inflater.inflate(R.layout.item_expense, parent, false);
+        return new ExpenseViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Expense expense = expenseList.get(position);
-        holder.textViewAmount.setText(expense.getAmount());
-        holder.textViewDate.setText(expense.getDate());
-        holder.textViewCategory.setText(expense.getCategory());
+    public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
+        if (expenses != null) {
+            Expense current = expenses.get(position);
+            holder.bind(current);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return expenseList.size();
+        return expenses != null ? expenses.size() : 0;
     }
 
-    public void addExpense(Expense newExpense) {
-        expenseList.add(newExpense);
-        notifyItemInserted(expenseList.size() - 1);
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+        notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewAmount;
-        public TextView textViewDate;
-        public TextView textViewCategory;
+    class ExpenseViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewAmount;
+        private final TextView textViewDate;
+        private final TextView textViewCategory;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ExpenseViewHolder(View itemView) {
             super(itemView);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewDate = itemView.findViewById(R.id.textDate);
             textViewCategory = itemView.findViewById(R.id.textViewCategory);
+        }
+
+        public void bind(Expense expense) {
+            textViewAmount.setText(String.valueOf(expense.getAmount()));
+            textViewDate.setText(expense.getDate());
+            textViewCategory.setText(expense.getCategory());
         }
     }
 }

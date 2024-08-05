@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
-    tools:context=".MainActivity"
+    tools:context=".Home"
     tools:ignore="ExtraText">
 
     <!-- Hello Anne Text -->
@@ -39,16 +39,17 @@
             android:text="Available Balance"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
+    <!-- Example layout XML -->
+    <TextView
+        android:id="@+id/balanceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:layout_margin="0dp"
+        android:text="KES 0.00" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="KES 400,000"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+
     </LinearLayout>
 
     <!-- Income and Expense Section -->
