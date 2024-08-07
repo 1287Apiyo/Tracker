@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,14 +27,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Include AddBalanceActivity -->
+        <activity
+            android:name=".AddBalanceActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".Home"
+            android:exported="true" />
         <activity
             android:name=".TransactionsActivity"
             android:exported="true" />
         <activity
             android:name=".add_transaction"
-            android:exported="true" />
-        <activity
-            android:name=".Home"
             android:exported="true" />
         <activity
             android:name=".AddIncomeBottomSheetDialogFragment"
@@ -54,19 +63,17 @@
             android:name=".item_transaction"
             android:exported="true" />
         <activity
-            android:name=".CategoryDialogFragment"
-            android:exported="true" />
-        <activity
             android:name=".item_category"
             android:exported="true" />
+
+        <!-- Remove CategoryDialogFragment as it is a fragment, not an activity -->
+        <!-- <activity
+            android:name=".CategoryDialogFragment"
+            android:exported="true" /> -->
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

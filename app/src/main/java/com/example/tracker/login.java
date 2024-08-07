@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,6 +22,7 @@ public class login extends AppCompatActivity {
     private Button loginButton;
     private TextView signUpTextView, forgotPasswordTextView;
     private FirebaseAuth mAuth;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,34 +41,18 @@ public class login extends AppCompatActivity {
         forgotPasswordTextView = findViewById(R.id.forgot_password_textview);
 
         // Set up button click listeners
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleLogin();
-            }
-        });
+        loginButton.setOnClickListener(v -> handleLogin());
 
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleSignUp();
-            }
-        });
+        signUpTextView.setOnClickListener(v -> handleSignUp());
 
-        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleForgotPassword();
-            }
-        });
+        forgotPasswordTextView.setOnClickListener(v -> handleForgotPassword());
     }
 
     private void handleLogin() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-        String username = usernameEditText.getText().toString().trim(); // Get username from EditText
+        String username = usernameEditText.getText().toString().trim();
 
-        // Validate inputs
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Please enter your email");
             return;
@@ -80,20 +66,17 @@ public class login extends AppCompatActivity {
             return;
         }
 
-        // Start Firebase authentication
-        long startTime = System.currentTimeMillis(); // Start timer
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    long endTime = System.currentTimeMillis(); // End timer
-                    Log.d("LoginTime", "Firebase login time: " + (endTime - startTime) + "ms");
-
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         saveUsernameToPreferences(username);
-                        updateUI(user);
+
+                        // Always navigate to AddBalanceActivity
+                        redirectToAddBalanceActivity();
                     } else {
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        updateUI(null);
                     }
                 });
     }
@@ -105,13 +88,11 @@ public class login extends AppCompatActivity {
         editor.apply();
     }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            // Navigate to the Home activity
-            Intent intent = new Intent(login.this, Home.class);
-            startActivity(intent);
-            finish();
-        }
+    private void redirectToAddBalanceActivity() {
+        // Navigate to AddBalanceActivity
+        Intent intent = new Intent(login.this, AddBalanceActivity.class);
+        startActivity(intent);
+        finish(); // Close the login activity
     }
 
     private void handleSignUp() {
