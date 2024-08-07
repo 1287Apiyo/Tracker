@@ -75,5 +75,8 @@ dependencies {
     testImplementation "androidx.room:room-testing:2.5.0" // For testing Room
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'org.json:json:20210307'
+    implementation 'com.plaid.link:plaid-link-android:3.6.0'
+    implementation 'com.plaid.link:link-sdk:3.0.3'
+    implementation 'com.plaid.link:link-sdk:3.0.3'  // Use the latest version
 
 }
