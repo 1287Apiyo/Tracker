@@ -73,5 +73,7 @@ dependencies {
 
 
     testImplementation "androidx.room:room-testing:2.5.0" // For testing Room
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'org.json:json:20210307'
 
 }

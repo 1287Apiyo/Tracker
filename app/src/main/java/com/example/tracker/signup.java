@@ -3,6 +3,7 @@ package com.example.tracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class signup extends AppCompatActivity {
 
-    private EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    private EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText, phoneNumberEditText;
     private Button signupButton;
     private TextView alreadyHaveAccountTextView;
     private FirebaseAuth mAuth;
@@ -35,6 +36,7 @@ public class signup extends AppCompatActivity {
         emailEditText = findViewById(R.id.signup_email_edit_text);
         passwordEditText = findViewById(R.id.signup_password_edit_text);
         confirmPasswordEditText = findViewById(R.id.confirm_password_edit_text);
+        phoneNumberEditText = findViewById(R.id.signup_phone_number_edit_text); // Added phone number field
         signupButton = findViewById(R.id.signup_button);
         alreadyHaveAccountTextView = findViewById(R.id.already_have_account_textview);
 
@@ -59,6 +61,7 @@ public class signup extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+        String phoneNumber = phoneNumberEditText.getText().toString().trim();
 
         // Input validation
         if (TextUtils.isEmpty(username)) {
@@ -66,8 +69,8 @@ public class signup extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Please enter your email");
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Please enter a valid email address");
             return;
         }
 
@@ -86,13 +89,18 @@ public class signup extends AppCompatActivity {
             return;
         }
 
+        if (TextUtils.isEmpty(phoneNumber) || !Patterns.PHONE.matcher(phoneNumber).matches()) {
+            phoneNumberEditText.setError("Please enter a valid phone number");
+            return;
+        }
+
         // Firebase registration logic
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign up success, add user to Firestore and update UI
                         FirebaseUser user = mAuth.getCurrentUser();
-                        addUserToFirestore(user, username);
+                        addUserToFirestore(user, username, phoneNumber);
                         updateUI(user);
                     } else {
                         // If sign up fails, display a message to the user.
@@ -102,13 +110,14 @@ public class signup extends AppCompatActivity {
                 });
     }
 
-    private void addUserToFirestore(FirebaseUser user, String username) {
+    private void addUserToFirestore(FirebaseUser user, String username, String phoneNumber) {
         if (user == null) return;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
         userData.put("email", user.getEmail());
+        userData.put("phoneNumber", phoneNumber); // Add phone number to Firestore
 
         db.collection("users").document(user.getUid())
                 .set(userData)

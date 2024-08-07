@@ -1,10 +1,8 @@
-package com.example.tracker;
-import android.app.Application;
+package com.example.tracker;import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Transformations;
 
 import java.util.List;
 
@@ -14,6 +12,8 @@ public class TransactionViewModel extends AndroidViewModel {
     private final LiveData<List<Income>> allIncomes;
     private final LiveData<List<Expense>> allExpenses;
     private final MediatorLiveData<Double> totalBalance;
+    private final MediatorLiveData<Double> totalIncome;
+    private final MediatorLiveData<Double> totalExpense;
 
     public TransactionViewModel(@NonNull Application application) {
         super(application);
@@ -22,10 +22,14 @@ public class TransactionViewModel extends AndroidViewModel {
         allExpenses = repository.getExpenses();
 
         totalBalance = new MediatorLiveData<>();
+        totalIncome = new MediatorLiveData<>();
+        totalExpense = new MediatorLiveData<>();
 
         // Add sources to MediatorLiveData
-        totalBalance.addSource(allIncomes, incomes -> updateTotalBalance(incomes, allExpenses.getValue()));
-        totalBalance.addSource(allExpenses, expenses -> updateTotalBalance(allIncomes.getValue(), expenses));
+        totalBalance.addSource(allIncomes, incomes -> updateTotals(incomes, allExpenses.getValue()));
+        totalBalance.addSource(allExpenses, expenses -> updateTotals(allIncomes.getValue(), expenses));
+        totalIncome.addSource(allIncomes, incomes -> updateTotals(incomes, allExpenses.getValue()));
+        totalExpense.addSource(allExpenses, expenses -> updateTotals(allIncomes.getValue(), expenses));
     }
 
     public LiveData<List<Income>> getAllIncomes() {
@@ -48,22 +52,32 @@ public class TransactionViewModel extends AndroidViewModel {
         return totalBalance;
     }
 
-    private void updateTotalBalance(List<Income> incomes, List<Expense> expenses) {
-        double totalIncome = 0;
-        double totalExpense = 0;
+    public LiveData<Double> getTotalIncome() {
+        return totalIncome;
+    }
+
+    public LiveData<Double> getTotalExpense() {
+        return totalExpense;
+    }
+
+    private void updateTotals(List<Income> incomes, List<Expense> expenses) {
+        double totalIncomeValue = 0;
+        double totalExpenseValue = 0;
 
         if (incomes != null) {
             for (Income income : incomes) {
-                totalIncome += income.getAmount();
+                totalIncomeValue += income.getAmount();
             }
+            totalIncome.setValue(totalIncomeValue);
         }
 
         if (expenses != null) {
             for (Expense expense : expenses) {
-                totalExpense += expense.getAmount();
+                totalExpenseValue += expense.getAmount();
             }
+            totalExpense.setValue(totalExpenseValue);
         }
 
-        totalBalance.setValue(totalIncome - totalExpense);
+        totalBalance.setValue(totalIncomeValue - totalExpenseValue);
     }
 }

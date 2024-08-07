@@ -1,5 +1,4 @@
 package com.example.tracker;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +25,8 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
     private TransactionsAdapter transactionsAdapter;
     private TextView textWelcome;
     private TextView balanceTextView;
+    private TextView totalIncomeTextView;
+    private TextView totalExpenseTextView;
     private TransactionViewModel transactionViewModel;
 
     @SuppressLint("MissingInflatedId")
@@ -81,13 +82,27 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         textWelcome = findViewById(R.id.textWelcome);
         textWelcome.setText("Welcome " + username);
 
-        // Initialize balance TextView
+        // Initialize TextViews
         balanceTextView = findViewById(R.id.balanceTextView);
+        totalIncomeTextView = findViewById(R.id.totalIncomeTextView); // Add this line
+        totalExpenseTextView = findViewById(R.id.totalExpenseTextView); // Add this line
 
         // Observe the total balance LiveData
         transactionViewModel.getTotalBalance().observe(this, totalBalance -> {
             // Update the UI with the total balance
             balanceTextView.setText(String.format("KES %.2f", totalBalance));
+        });
+
+        // Observe the total income LiveData
+        transactionViewModel.getTotalIncome().observe(this, totalIncome -> {
+            // Update the UI with the total income
+            totalIncomeTextView.setText(String.format("KES %.2f", totalIncome));
+        });
+
+        // Observe the total expense LiveData
+        transactionViewModel.getTotalExpense().observe(this, totalExpense -> {
+            // Update the UI with the total expense
+            totalExpenseTextView.setText(String.format("KES %.2f", totalExpense));
         });
     }
 
