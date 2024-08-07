@@ -20,7 +20,9 @@
     <string name="previous">Previous</string>
 
     <string name="category_prompt">Select Category</string>
+    <string name="category_icon_desc">Category Icon</string>
 
+    <string name="delete">Delete</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

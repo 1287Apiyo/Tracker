@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class signup extends AppCompatActivity {
 
@@ -22,6 +25,11 @@ public class signup extends AppCompatActivity {
     private Button signupButton;
     private TextView alreadyHaveAccountTextView;
     private FirebaseAuth mAuth;
+
+    // Password strength pattern
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +48,12 @@ public class signup extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         alreadyHaveAccountTextView = findViewById(R.id.already_have_account_textview);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleSignUp();
-            }
-        });
+        signupButton.setOnClickListener(v -> handleSignUp());
 
-        alreadyHaveAccountTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(signup.this, login.class));
-                finish();
-            }
+        alreadyHaveAccountTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(signup.this, login.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -79,8 +80,8 @@ public class signup extends AppCompatActivity {
             return;
         }
 
-        if (password.length() < 6) {
-            passwordEditText.setError("Password must be at least 6 characters long");
+        if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            passwordEditText.setError("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a digit, and a special character");
             return;
         }
 

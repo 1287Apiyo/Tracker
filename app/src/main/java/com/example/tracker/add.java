@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 
-public class add extends AppCompatActivity {
+public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickListener, ExpenseAdapter.OnItemClickListener {
 
     private static final String TAG = "AddActivity";
 
@@ -37,11 +37,11 @@ public class add extends AppCompatActivity {
         recyclerViewExpense = findViewById(R.id.recyclerViewTransactionsExpense);
 
         recyclerViewIncome.setLayoutManager(new LinearLayoutManager(this));
-        incomeAdapter = new IncomeAdapter(this);
+        incomeAdapter = new IncomeAdapter(this, this);
         recyclerViewIncome.setAdapter(incomeAdapter);
 
         recyclerViewExpense.setLayoutManager(new LinearLayoutManager(this));
-        expenseAdapter = new ExpenseAdapter(this);
+        expenseAdapter = new ExpenseAdapter(this, this);
         recyclerViewExpense.setAdapter(expenseAdapter);
 
         // Observe data changes
@@ -77,5 +77,17 @@ public class add extends AppCompatActivity {
         Log.d(TAG, "Showing Add Expense Dialog");
         AddExpenseBottomSheetDialogFragment dialogFragment = new AddExpenseBottomSheetDialogFragment();
         dialogFragment.show(getSupportFragmentManager(), "AddExpenseDialog");
+    }
+
+    @Override
+    public void onDeleteClick(Income income) {
+        // Handle delete income action
+        transactionViewModel.deleteIncome(income);
+    }
+
+    @Override
+    public void onDeleteClick(Expense expense) {
+        // Handle delete expense action
+        transactionViewModel.deleteExpense(expense);
     }
 }

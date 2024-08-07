@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/inter_bold"
             android:text="Add Income"
             android:textColor="#CD7F32"
@@ -99,6 +99,7 @@
             android:fontFamily="@font/inter_bold"
             android:text="Add Expenses"
             android:textColor="#A9FFE4"
+            android:layout_marginBottom="15dp"
             android:textSize="11sp"/>
     </RelativeLayout>
 

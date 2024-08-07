@@ -75,8 +75,16 @@ dependencies {
     testImplementation "androidx.room:room-testing:2.5.0" // For testing Room
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'org.json:json:20210307'
-    implementation 'com.plaid.link:plaid-link-android:3.6.0'
-    implementation 'com.plaid.link:link-sdk:3.0.3'
-    implementation 'com.plaid.link:link-sdk:3.0.3'  // Use the latest version
+    implementation 'com.google.firebase:firebase-firestore:24.0.0'
+
+    implementation 'com.google.firebase:firebase-analytics:20.2.0'
+    implementation 'com.google.firebase:firebase-core:20.1.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    implementation 'com.google.firebase:firebase-firestore:24.6.0' // Use the latest version
+    // Other dependencies
+
+
 
 }

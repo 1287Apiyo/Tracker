@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class TransactionRepository {
+
     private final TransactionDao transactionDao;
     private final LiveData<List<Income>> allIncomes;
     private final LiveData<List<Expense>> allExpenses;
@@ -30,5 +31,13 @@ public class TransactionRepository {
 
     public void insert(Expense expense) {
         TransactionDatabase.getDatabaseWriteExecutor().execute(() -> transactionDao.insertExpense(expense));
+    }
+
+    public void deleteIncome(Income income) {
+        TransactionDatabase.getDatabaseWriteExecutor().execute(() -> transactionDao.deleteIncome(income));
+    }
+
+    public void deleteExpense(Expense expense) {
+        TransactionDatabase.getDatabaseWriteExecutor().execute(() -> transactionDao.deleteExpense(expense));
     }
 }

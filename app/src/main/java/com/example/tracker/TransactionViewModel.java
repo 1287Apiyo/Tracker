@@ -1,4 +1,6 @@
-package com.example.tracker;import android.app.Application;
+package com.example.tracker;
+
+import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -25,6 +27,11 @@ public class TransactionViewModel extends AndroidViewModel {
         totalIncome = new MediatorLiveData<>();
         totalExpense = new MediatorLiveData<>();
 
+        // Initialize total values
+        totalBalance.setValue(0.0);
+        totalIncome.setValue(0.0);
+        totalExpense.setValue(0.0);
+
         // Add sources to MediatorLiveData
         totalBalance.addSource(allIncomes, incomes -> updateTotals(incomes, allExpenses.getValue()));
         totalBalance.addSource(allExpenses, expenses -> updateTotals(allIncomes.getValue(), expenses));
@@ -46,6 +53,14 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public void insert(Expense expense) {
         repository.insert(expense);
+    }
+
+    public void deleteIncome(Income income) {
+        repository.deleteIncome(income);
+    }
+
+    public void deleteExpense(Expense expense) {
+        repository.deleteExpense(expense);
     }
 
     public LiveData<Double> getTotalBalance() {

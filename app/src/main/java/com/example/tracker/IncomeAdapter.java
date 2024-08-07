@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +14,11 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeView
 
     private final LayoutInflater inflater;
     private List<Income> incomes;
+    private final OnItemClickListener onItemClickListener;
 
-    public IncomeAdapter(Context context) {
+    public IncomeAdapter(Context context, OnItemClickListener listener) {
         this.inflater = LayoutInflater.from(context);
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -47,12 +50,21 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeView
         private final TextView textViewAmount;
         private final TextView textViewDate;
         private final TextView textViewSource;
+        private final ImageButton deleteButton;
 
         public IncomeViewHolder(View itemView) {
             super(itemView);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
             textViewDate = itemView.findViewById(R.id.textDate);
             textViewSource = itemView.findViewById(R.id.textViewCategory);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
+
+            deleteButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener.onDeleteClick(incomes.get(position));
+                }
+            });
         }
 
         public void bind(Income income) {
@@ -60,5 +72,9 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeView
             textViewDate.setText(income.getDate());
             textViewSource.setText(income.getSource());
         }
+    }
+
+    public interface OnItemClickListener {
+        void onDeleteClick(Income income);
     }
 }

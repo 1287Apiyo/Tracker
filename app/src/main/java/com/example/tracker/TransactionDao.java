@@ -2,8 +2,10 @@ package com.example.tracker;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
 import java.util.List;
 
 @Dao
@@ -20,4 +22,10 @@ public interface TransactionDao {
 
     @Insert
     void insertExpense(Expense expense);
+
+    @Delete
+    void deleteIncome(Income income);
+
+    @Delete
+    void deleteExpense(Expense expense);
 }
