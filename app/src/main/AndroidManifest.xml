@@ -21,9 +21,9 @@
         android:theme="@style/Theme.Tracker"
         tools:targetApi="31">
 
-        <!-- Set login activity as the launcher -->
+        <!-- Set SplashActivity as the launcher -->
         <activity
-            android:name=".login"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +32,9 @@
         </activity>
 
         <!-- Include other activities -->
+        <activity
+            android:name=".login"
+            android:exported="true" />
         <activity
             android:name=".AddBalanceActivity"
             android:exported="true" />

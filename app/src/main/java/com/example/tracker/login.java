@@ -30,6 +30,14 @@ public class login extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        // Check if user is already logged in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // User is already logged in, redirect to the AddBalanceActivity
+            redirectToAddBalanceActivity();
+            return;
+        }
+
         // Initialize views
         emailEditText = findViewById(R.id.login_email_edit_text);
         passwordEditText = findViewById(R.id.login_password_edit_text);
@@ -62,8 +70,7 @@ public class login extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-
-                        // Always navigate to AddBalanceActivity
+                        // Redirect to the AddBalanceActivity after successful login
                         redirectToAddBalanceActivity();
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());

@@ -7,6 +7,17 @@
     android:background="#0B0B0B"
     tools:context=".login">
 
+    <ImageView
+        android:id="@+id/logo_image_view"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.1" />
+
     <TextView
         android:id="@+id/Login"
         android:layout_width="wrap_content"
@@ -14,15 +25,11 @@
         android:text="Log In"
         android:textColor="#CD7F32"
         android:textSize="34sp"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintVertical_bias="0.2" />
-
-
-
-
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/email_textview"
@@ -34,9 +41,9 @@
         android:textColor="#FBF7F7"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/Login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Login" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/login_email_edit_text"
@@ -44,10 +51,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Email address"
+        android:textColor="@color/white"
         android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/email_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_textview"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -60,9 +68,9 @@
         android:textColor="#F1EFEF"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/login_email_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_email_edit_text" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/login_password_edit_text"
@@ -70,10 +78,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Password"
+        android:textColor="@color/white"
         android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/password_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_textview"
         tools:ignore="TouchTargetSizeCheck" />
 
     <Button
@@ -86,9 +95,9 @@
         android:text="Log In"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_edit_text" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/forgot_password_textview"
@@ -103,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/login_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/dont_have_account_textview"
@@ -115,10 +124,9 @@
         android:textColor="#A9FFE4"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:backgroundTint="#CD7F32"
         app:layout_constraintTop_toBottomOf="@+id/forgot_password_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,4 +4,9 @@
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:dropDownVerticalOffset">10dp</item>
     </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/logo</item>
+    </style>
+
+
 </resources>

@@ -227,7 +227,7 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
             return matcher.group();
         }
         // Use the current date as a fallback
-        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        return new SimpleDateFormat("d/M/yyyy", Locale.getDefault()).format(new Date());
     }
 
 
@@ -241,7 +241,7 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
             }
         }
         // Default category if none matched
-        return "Uncategorized";
+        return "Other";
     }
 
 
