@@ -79,20 +79,23 @@ public class TransactionViewModel extends AndroidViewModel {
         double totalIncomeValue = 0;
         double totalExpenseValue = 0;
 
+        // Compute total income
         if (incomes != null) {
             for (Income income : incomes) {
                 totalIncomeValue += income.getAmount();
             }
-            totalIncome.setValue(totalIncomeValue);
         }
+        totalIncome.setValue(totalIncomeValue);
 
+        // Compute total expense
         if (expenses != null) {
             for (Expense expense : expenses) {
                 totalExpenseValue += expense.getAmount();
             }
-            totalExpense.setValue(totalExpenseValue);
         }
+        totalExpense.setValue(totalExpenseValue);
 
+        // Update total balance
         totalBalance.setValue(totalIncomeValue - totalExpenseValue);
     }
 }

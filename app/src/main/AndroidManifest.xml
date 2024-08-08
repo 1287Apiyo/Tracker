@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Permissions -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -27,11 +31,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Include AddBalanceActivity -->
+        <!-- Include other activities -->
         <activity
             android:name=".AddBalanceActivity"
             android:exported="true" />
-
         <activity
             android:name=".Home"
             android:exported="true" />
@@ -65,20 +68,20 @@
         <activity
             android:name=".item_category"
             android:exported="true" />
-        <activity android:name=".CategoriesActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".CategoriesActivity"
+            android:exported="true" />
 
-        <!-- Remove CategoryDialogFragment as it is a fragment, not an activity -->
-        <!-- <activity
-            android:name=".CategoryDialogFragment"
-            android:exported="true" /> -->
-
+        <!-- Meta-data -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="true"/>
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="face" />
 
     </application>
 

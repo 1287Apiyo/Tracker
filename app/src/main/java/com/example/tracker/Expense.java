@@ -14,6 +14,7 @@ public class Expense {
 
     // Public no-argument constructor
     public Expense() {
+        // Required by Room for entity instantiation
     }
 
     // Constructor with parameters
@@ -21,6 +22,7 @@ public class Expense {
         this.amount = amount;
         this.date = date;
         this.category = category;
+
     }
 
     // Getters and setters

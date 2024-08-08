@@ -103,6 +103,38 @@
             android:textSize="11sp"/>
     </RelativeLayout>
 
+    <!-- Camera Button -->
+    <RelativeLayout
+        android:id="@+id/CameraLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/IncomeLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/Camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"/>
+
+        <ImageView
+            android:id="@+id/iconCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/baseline_camera_enhance_24"
+            android:layout_marginBottom="1dp"/>
+
+
+
+    </RelativeLayout>
+
     <!-- Last Added Text -->
     <TextView
         android:id="@+id/LastAdded"
@@ -115,7 +147,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/IncomeLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/CameraLayout"/>
 
     <!-- RecyclerView for Income Transactions -->
     <androidx.recyclerview.widget.RecyclerView

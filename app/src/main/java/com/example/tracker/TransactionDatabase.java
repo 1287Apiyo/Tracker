@@ -4,7 +4,6 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,7 +13,7 @@ public abstract class TransactionDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
 
     private static volatile TransactionDatabase INSTANCE;
-    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
+    private static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
 
     public static TransactionDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
