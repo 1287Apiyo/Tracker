@@ -17,7 +17,7 @@
         android:id="@+id/textViewAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#CD7F32"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:layout_weight="1" />
 

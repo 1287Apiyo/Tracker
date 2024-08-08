@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#808482"
-        android:padding="8dp">
+        android:padding="3dp">
 
         <!-- Inner LinearLayout for Category, Amount, and Timestamp -->
         <LinearLayout
