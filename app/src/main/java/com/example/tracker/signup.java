@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -101,8 +102,9 @@ public class signup extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign up success, add user to Firestore and update UI
                         FirebaseUser user = mAuth.getCurrentUser();
-                        addUserToFirestore(user, username, phoneNumber);
-                        updateUI(user);
+                        if (user != null) {
+                            updateProfileAndAddToFirestore(user, username, phoneNumber);
+                        }
                     } else {
                         // If sign up fails, display a message to the user.
                         String errorMessage = task.getException() != null ? task.getException().getMessage() : "Authentication failed.";
@@ -111,27 +113,37 @@ public class signup extends AppCompatActivity {
                 });
     }
 
-    private void addUserToFirestore(FirebaseUser user, String username, String phoneNumber) {
-        if (user == null) return;
+    private void updateProfileAndAddToFirestore(FirebaseUser user, String username, String phoneNumber) {
+        // Update Firebase Auth profile
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
 
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Add user to Firestore
+                        addUserToFirestore(user, username, phoneNumber);
+                    }
+                });
+    }
+
+    private void addUserToFirestore(FirebaseUser user, String username, String phoneNumber) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
         userData.put("email", user.getEmail());
-        userData.put("phoneNumber", phoneNumber); // Add phone number to Firestore
+        userData.put("phoneNumber", phoneNumber);
 
         db.collection("users").document(user.getUid())
                 .set(userData)
-                .addOnSuccessListener(aVoid -> Toast.makeText(signup.this, "User registered successfully!", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(signup.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
+                    // Navigate to the Login activity
+                    Intent intent = new Intent(signup.this, login.class);
+                    startActivity(intent);
+                    finish();
+                })
                 .addOnFailureListener(e -> Toast.makeText(signup.this, "Failed to register user.", Toast.LENGTH_SHORT).show());
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            // Navigate to the Login activity
-            Intent intent = new Intent(signup.this, login.class);
-            startActivity(intent);
-            finish();
-        }
     }
 }

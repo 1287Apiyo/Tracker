@@ -3,17 +3,17 @@ package com.example.tracker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddBalanceActivity extends AppCompatActivity {
 
     private EditText balanceEditText;
     private Button saveButton, resetButton;
-    private TextView currentBalanceTextView;
+    private TextView currentBalanceTextView, welcomeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,16 @@ public class AddBalanceActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.save_button);
         resetButton = findViewById(R.id.reset_button);
         currentBalanceTextView = findViewById(R.id.current_balance_text_view);
+        welcomeTextView = findViewById(R.id.welcome_text_view);
 
         // Load and display current balance
         loadCurrentBalance();
+
+        // Get the username from Intent extras
+        String username = getIntent().getStringExtra("username");
+        if (username != null) {
+            welcomeTextView.setText("Welcome, " + username + "!");
+        }
 
         saveButton.setOnClickListener(v -> saveOrUpdateBalance());
 

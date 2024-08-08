@@ -30,14 +30,6 @@ public class login extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Check if user is already logged in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // User is already logged in, redirect to the AddBalanceActivity
-            redirectToAddBalanceActivity();
-            return;
-        }
-
         // Initialize views
         emailEditText = findViewById(R.id.login_email_edit_text);
         passwordEditText = findViewById(R.id.login_password_edit_text);
@@ -45,11 +37,18 @@ public class login extends AppCompatActivity {
         signUpTextView = findViewById(R.id.dont_have_account_textview);
         forgotPasswordTextView = findViewById(R.id.forgot_password_textview);
 
+        // Check if user is already logged in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // User is already logged in, redirect to the AddBalanceActivity
+            String username = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : currentUser.getEmail();
+            redirectToAddBalanceActivity(username); // Pass username here
+            return;
+        }
+
         // Set up button click listeners
         loginButton.setOnClickListener(v -> handleLogin());
-
         signUpTextView.setOnClickListener(v -> handleSignUp());
-
         forgotPasswordTextView.setOnClickListener(v -> handleForgotPassword());
     }
 
@@ -70,8 +69,8 @@ public class login extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        // Redirect to the AddBalanceActivity after successful login
-                        redirectToAddBalanceActivity();
+                        String username = user != null ? user.getDisplayName() : email; // Retrieve username
+                        redirectToAddBalanceActivity(username); // Pass the username here
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -79,9 +78,9 @@ public class login extends AppCompatActivity {
                 });
     }
 
-    private void redirectToAddBalanceActivity() {
-        // Navigate to AddBalanceActivity
+    private void redirectToAddBalanceActivity(String username) {
         Intent intent = new Intent(login.this, AddBalanceActivity.class);
+        intent.putExtra("username", username); // Pass the username
         startActivity(intent);
         finish(); // Close the login activity
     }
