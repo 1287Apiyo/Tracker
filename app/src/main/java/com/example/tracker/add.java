@@ -27,6 +27,9 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -142,95 +145,105 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openCamera();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.d(TAG, "Camera result OK");
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            if (imageBitmap != null) {
+                processImage(imageBitmap);
             } else {
-                Toast.makeText(this, "Camera permission is required", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Image capture failed");
             }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            processImage(imageBitmap);
-        }
-    }
-
     private void processImage(Bitmap imageBitmap) {
-        // Create an InputImage object from the bitmap
         InputImage image = InputImage.fromBitmap(imageBitmap, 0);
-
-        // Initialize the TextRecognizer
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
-        // Process the image and recognize text
         recognizer.process(image)
                 .addOnSuccessListener(new OnSuccessListener<Text>() {
                     @Override
                     public void onSuccess(Text visionText) {
-                        // Extract and parse recognized text
-                        String extractedText = extractTextFromVisionText(visionText);
-                        Log.d(TAG, "Extracted text: " + extractedText);
+                        String recognizedText = visionText.getText();
+                        Log.d(TAG, "Extracted text: " + recognizedText);
+                        Toast.makeText(add.this, "OCR success: " + recognizedText, Toast.LENGTH_LONG).show();
 
-                        // Parse and update the UI
-                        parseAndUpdateUI(extractedText);
+                        // Extract details from the recognized text
+                        double amount = parseAmountFromText(recognizedText);
+                        String date = parseDateFromText(recognizedText);
+                        String category = parseCategoryFromText(recognizedText);
+
+                        Log.d(TAG, "Parsed amount: " + amount);
+                        Log.d(TAG, "Parsed date: " + date);
+                        Log.d(TAG, "Parsed category: " + category);
+
+                        if (amount > 0) {
+                            // Create and insert the Expense object
+                            Expense newExpense = new Expense(amount, date, category);
+                            transactionViewModel.insert(newExpense);
+                            Toast.makeText(add.this, "Expense added: KES " + amount, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(add.this, "Failed to parse amount", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "OCR failed", e);
-                        Toast.makeText(add.this, "Failed to extract text from image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(add.this, "OCR failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private String extractTextFromVisionText(Text visionText) {
-        StringBuilder extractedText = new StringBuilder();
-        for (Text.TextBlock block : visionText.getTextBlocks()) {
-            for (Text.Line line : block.getLines()) {
-                extractedText.append(line.getText()).append("\n");
+
+
+
+
+
+    private double parseAmountFromText(String text) {
+        // Improved regex to capture amounts, including decimal points and currency symbols
+        Pattern pattern = Pattern.compile("\\b\\d+(?:\\.\\d{1,2})?\\b");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            String amountStr = matcher.group().replaceAll("[^\\d.]", ""); // Remove non-numeric characters
+            try {
+                return Double.parseDouble(amountStr);
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Failed to parse amount: " + amountStr);
             }
         }
-        return extractedText.toString();
+        return 0; // Return 0 if parsing fails
     }
 
-    private void parseAndUpdateUI(String text) {
-        Pattern patternDate = Pattern.compile("Date: (\\d{2}/\\d{2}/\\d{4})");
-        Pattern patternAmount = Pattern.compile("Amount: (\\d+\\.\\d{2})");
-        Pattern patternExpenseType = Pattern.compile("Expense Type: (.*)");
-
-        Matcher matcherDate = patternDate.matcher(text);
-        Matcher matcherAmount = patternAmount.matcher(text);
-        Matcher matcherExpenseType = patternExpenseType.matcher(text);
-
-        String date = matcherDate.find() ? matcherDate.group(1) : "N/A";
-        String amount = matcherAmount.find() ? matcherAmount.group(1) : "0.00";
-        String expenseType = matcherExpenseType.find() ? matcherExpenseType.group(1) : "Unknown";
-
-        Log.d(TAG, "Parsed date: " + date);
-        Log.d(TAG, "Parsed amount: " + amount);
-        Log.d(TAG, "Parsed expense type: " + expenseType);
-
-        try {
-            double parsedAmount = Double.parseDouble(amount);
-            Expense newExpense = new Expense(parsedAmount, date, expenseType);
-
-            // Insert into ViewModel
-            transactionViewModel.insert(newExpense);
-            Log.d(TAG, "New expense added: " + newExpense);
-        } catch (NumberFormatException e) {
-            Log.e(TAG, "Failed to parse amount", e);
+    private String parseDateFromText(String text) {
+        // Regex for different date formats (e.g., YYYY-MM-DD)
+        Pattern pattern = Pattern.compile("\\b\\d{4}-\\d{2}-\\d{2}\\b");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
         }
+        // Use the current date as a fallback
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     }
+
+
+
+    private String parseCategoryFromText(String text) {
+        // Example categories
+        String[] categories = {"Food", "Transport", "Entertainment", "Utilities", "Gifts","Food","Bills","Shopping","Health","Travel","Other"};
+        for (String category : categories) {
+            if (text.toLowerCase().contains(category.toLowerCase())) {
+                return category;
+            }
+        }
+        // Default category if none matched
+        return "Uncategorized";
+    }
+
 
 
 }
