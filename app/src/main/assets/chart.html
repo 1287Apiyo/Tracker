@@ -60,12 +60,14 @@
 
         // Function to initialize the chart
         function initializeChart(categories, values) {
-            // Generate unique colors for each category
-            const colors = categories.map((_, index) => {
-                // Generate a random color or use a color palette
-                const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-                return randomColor;
-            });
+            // Define a color palette or generate colors dynamically
+            const colors = [
+                '#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300',
+                '#DAF7A6', '#581845', '#900C3F', '#C70039', '#FF5733'
+            ];
+
+            // Ensure there are enough colors for the categories
+            const colorSet = categories.map((_, index) => colors[index % colors.length]);
 
             // Destroy the chart if it already exists
             if (myChart) {
@@ -81,7 +83,7 @@
                     datasets: [{
                         label: 'Expenses',
                         data: values,
-                        backgroundColor: colors,
+                        backgroundColor: colorSet,
                         borderColor: '#FFFFFF',
                         borderWidth: 1
                     }]
@@ -115,7 +117,7 @@
             });
 
             // Generate custom legend
-            generateLegend(categories, colors);
+            generateLegend(categories, colorSet);
         }
 
         // Function to generate a custom legend
@@ -151,6 +153,8 @@
 
         // Automatically load chart when the page loads
         window.onload = function() {
+            // This will be triggered by the Android app; it's here for demonstration
+            // Make sure the Android app passes the correct data
             // Example data; replace this with the actual data from Android
             const jsonData = '{"categories": ["Food", "Transport", "Entertainment"], "values": [200, 150, 100]}';
             receiveData(jsonData);
