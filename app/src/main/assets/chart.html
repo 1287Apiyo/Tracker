@@ -11,10 +11,11 @@
             color: #FFFFFF; /* White text */
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
         #chartContainer {
             width: 100%;
-            height: 80vh;
+            height: 70vh;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -28,6 +29,23 @@
             font-size: 24px;
             margin-top: 20px;
         }
+        .legend-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 5px 10px;
+            font-size: 16px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -35,12 +53,21 @@
 <div id="chartContainer">
     <canvas id="myChart"></canvas>
 </div>
+<div class="legend-container" id="legendContainer"></div>
 
 <script>
         let myChart;
 
+        // Function to initialize the chart
         function initializeChart(categories, values) {
-            // If the chart already exists, destroy it before creating a new one
+            // Generate unique colors for each category
+            const colors = categories.map((_, index) => {
+                // Generate a random color or use a color palette
+                const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                return randomColor;
+            });
+
+            // Destroy the chart if it already exists
             if (myChart) {
                 myChart.destroy();
             }
@@ -48,19 +75,13 @@
             // Create a new chart
             const ctx = document.getElementById('myChart').getContext('2d');
             myChart = new Chart(ctx, {
-                type: 'bar', // You can change this to 'pie', 'line', etc.
+                type: 'bar', // Change to 'pie', 'line', etc., if needed
                 data: {
                     labels: categories,
                     datasets: [{
                         label: 'Expenses',
                         data: values,
-                        backgroundColor: [
-                            '#FF673AB7', // Example color, adjust as needed
-                            '#FFAB40',   // Example color, adjust as needed
-                            '#FFD740',   // Example color, adjust as needed
-                            '#FF5722',   // Example color, adjust as needed
-                            '#C2185B'    // Example color, adjust as needed
-                        ],
+                        backgroundColor: colors,
                         borderColor: '#FFFFFF',
                         borderWidth: 1
                     }]
@@ -87,22 +108,52 @@
                     },
                     plugins: {
                         legend: {
-                            labels: {
-                                color: '#FFFFFF'
-                            }
+                            display: false // Hide default legend
                         }
                     }
                 }
             });
+
+            // Generate custom legend
+            generateLegend(categories, colors);
         }
 
-        function receiveData(jsonData) {
-            var data = JSON.parse(jsonData);
-            var categories = data.categories;
-            var values = data.values;
+        // Function to generate a custom legend
+        function generateLegend(categories, colors) {
+            const legendContainer = document.getElementById('legendContainer');
+            legendContainer.innerHTML = ''; // Clear previous legends
 
-            // Initialize or update the chart with the received data
+            categories.forEach((category, index) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+
+                const colorBox = document.createElement('div');
+                colorBox.className = 'legend-color';
+                colorBox.style.backgroundColor = colors[index];
+
+                const text = document.createTextNode(category);
+
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(text);
+                legendContainer.appendChild(legendItem);
+            });
+        }
+
+        // Function to receive data from Android
+        function receiveData(jsonData) {
+            const data = JSON.parse(jsonData);
+            const categories = data.categories;
+            const values = data.values;
+
+            // Initialize the chart with the received data
             initializeChart(categories, values);
+        }
+
+        // Automatically load chart when the page loads
+        window.onload = function() {
+            // Example data; replace this with the actual data from Android
+            const jsonData = '{"categories": ["Food", "Transport", "Entertainment"], "values": [200, 150, 100]}';
+            receiveData(jsonData);
         }
     </script>
 </body>
