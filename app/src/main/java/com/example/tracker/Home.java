@@ -192,6 +192,7 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         if (backPressedOnce) {
             // Navigate to AddBalanceActivity
             Intent intent = new Intent(Home.this, AddBalanceActivity.class);

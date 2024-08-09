@@ -41,12 +41,12 @@
 
         <ImageView
             android:id="@+id/iconIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="1dp"
-            android:src="@drawable/baseline_payment_24"
+            android:src="@drawable/baseline_add_card"
             app:tint="#7BCCA8" />
 
         <TextView
@@ -82,11 +82,11 @@
 
         <ImageView
             android:id="@+id/iconExpense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/baseline_credit_card_24"
             android:layout_marginBottom="1dp"
+            android:src="@drawable/baseline_add_card_24"
             android:tint="#A65F1A"
             tools:ignore="UseAppTint" />
 
