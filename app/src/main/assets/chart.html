@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #000000; /* Black background */
+            color: #FFFFFF; /* White text */
+            margin: 0;
+            padding: 0;
+        }
+        #chartContainer {
+            width: 100%;
+            height: 80vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        canvas {
+            display: block;
+            max-width: 100%;
+        }
+        .title {
+            text-align: center;
+            color: #FF673AB7; /* Your specific color */
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="title">Statistics</div>
+<div id="chartContainer">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+        let myChart;
+
+        function initializeChart(categories, values) {
+            // If the chart already exists, destroy it before creating a new one
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            // Create a new chart
+            const ctx = document.getElementById('myChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'bar', // You can change this to 'pie', 'line', etc.
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        label: 'Expenses',
+                        data: values,
+                        backgroundColor: [
+                            '#FF673AB7', // Example color, adjust as needed
+                            '#FFAB40',   // Example color, adjust as needed
+                            '#FFD740',   // Example color, adjust as needed
+                            '#FF5722',   // Example color, adjust as needed
+                            '#C2185B'    // Example color, adjust as needed
+                        ],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#FFFFFF'
+                            },
+                            grid: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#FFFFFF'
+                            },
+                            grid: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function receiveData(jsonData) {
+            var data = JSON.parse(jsonData);
+            var categories = data.categories;
+            var values = data.values;
+
+            // Initialize or update the chart with the received data
+            initializeChart(categories, values);
+        }
+    </script>
+</body>
+</html>

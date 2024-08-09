@@ -50,6 +50,9 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
     private CategoriesAdapter categoriesAdapter;
     private List<Category> categoryList;
 
+    // **Newly Added: Button for Viewing Statistics**
+    private Button btnStatistics;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,14 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         viewAllTransactions.setOnClickListener(v -> {
             Log.d(TAG, "View All Transactions clicked");
             Intent intent = new Intent(Home.this, TransactionsActivity.class);
+            startActivity(intent);
+        });
+
+        // **Initialize and Set OnClickListener for the Statistics Button**
+        btnStatistics = findViewById(R.id.btnStatistics);
+        btnStatistics.setOnClickListener(v -> {
+            Log.d(TAG, "View Statistics button clicked");
+            Intent intent = new Intent(Home.this, StatisticsActivity.class);
             startActivity(intent);
         });
 

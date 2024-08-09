@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_centerHorizontal="true"
         android:fontFamily="@font/inter_bold"
         android:text="Hello Anne"
         android:textColor="#A9FFE4"
@@ -204,6 +203,21 @@
         android:padding="8dp"
         android:background="#000000" />
 
+    <!-- Button to View Statistics -->
+    <Button
+        android:id="@+id/btnStatistics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="View Statistics"
+        android:backgroundTint="#A9FFE4"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+
+    <!-- Floating Action Button to Add -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
@@ -218,6 +232,5 @@
         app:tint="@android:color/black"
         android:src="@android:drawable/ic_menu_add"
         tools:ignore="SpeakableTextPresentCheck" />
-
 
 </RelativeLayout>

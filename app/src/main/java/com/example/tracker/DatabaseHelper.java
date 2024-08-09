@@ -75,4 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_TRANSACTIONS, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
+
+    // New method to get expenses by category
+
 }
