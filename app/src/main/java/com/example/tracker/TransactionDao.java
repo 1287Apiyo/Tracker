@@ -17,6 +17,9 @@ public interface TransactionDao {
     @Query("SELECT * FROM expense_table")
     LiveData<List<Expense>> getAllExpenses();
 
+    @Query("SELECT * FROM expense_table WHERE category = :category")
+    List<Expense> getExpensesByCategory(String category);  // New method to get expenses by category
+
     @Insert
     void insertIncome(Income income);
 
