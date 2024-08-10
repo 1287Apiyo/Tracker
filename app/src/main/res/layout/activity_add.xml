@@ -107,8 +107,24 @@
                 android:textSize="11sp"/>
         </RelativeLayout>
 
+        <!-- View Budgets Button -->
+        <Button
+            android:id="@+id/buttonViewBudgets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Budget"
+            android:textColor="#A9FFE4"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#CD7F32"
+            app:layout_constraintTop_toBottomOf="@id/IncomeLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="300dp"
+            android:layout_gravity="start"/>
+
         <!-- Camera Button -->
         <RelativeLayout
+
             android:id="@+id/CameraLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -132,8 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/baseline_camera_enhance_24"
-                android:layout_marginBottom="1dp"/>
+                android:layout_marginBottom="1dp"
+                android:src="@drawable/baseline_camera_enhance_24" />
         </RelativeLayout>
 
         <!-- Last Added Text -->

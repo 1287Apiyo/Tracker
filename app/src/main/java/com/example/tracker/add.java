@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -99,6 +100,13 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
         iconCamera.setOnClickListener(v -> {
             Log.d(TAG, "Camera icon clicked");
             requestCameraPermission(); // Open the camera when icon is clicked
+        });
+
+        // Initialize and set up the Budget button
+        Button buttonViewBudgets = findViewById(R.id.buttonViewBudgets);
+        buttonViewBudgets.setOnClickListener(v -> {
+            Intent intent = new Intent(add.this, BudgetDashboardActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -199,11 +207,6 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
                 });
     }
 
-
-
-
-
-
     private double parseAmountFromText(String text) {
         // Improved regex to capture amounts, including decimal points and currency symbols
         Pattern pattern = Pattern.compile("\\b\\d+(?:\\.\\d{1,2})?\\b");
@@ -213,37 +216,41 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
             try {
                 return Double.parseDouble(amountStr);
             } catch (NumberFormatException e) {
-                Log.e(TAG, "Failed to parse amount: " + amountStr);
+                Log.e(TAG, "Failed to parse amount from text: " + amountStr, e);
             }
         }
-        return 0; // Return 0 if parsing fails
+        return 0.0;
     }
 
     private String parseDateFromText(String text) {
-        // Regex for different date formats (e.g., YYYY-MM-DD)
-        Pattern pattern = Pattern.compile("\\b\\d{4}-\\d{2}-\\d{2}\\b");
+        // Simple regex to capture dates in common formats (e.g., 21/12/2023, 12-21-23)
+        Pattern pattern = Pattern.compile("\\b\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4}\\b");
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             return matcher.group();
         }
-        // Use the current date as a fallback
-        return new SimpleDateFormat("d/M/yyyy", Locale.getDefault()).format(new Date());
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date()); // Return current date if no date found
     }
-
-
 
     private String parseCategoryFromText(String text) {
-        // Example categories
-        String[] categories = {"Food", "Transport", "Entertainment", "Utilities", "Gifts","Food","Bills","Shopping","Health","Travel","Other"};
-        for (String category : categories) {
-            if (text.toLowerCase().contains(category.toLowerCase())) {
-                return category;
-            }
+        // Example regex to extract the first word as a category
+        Pattern pattern = Pattern.compile("\\b\\w+\\b");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
         }
-        // Default category if none matched
-        return "Other";
+        return "Uncategorized";
     }
 
-
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        } else {
+            Log.e(TAG, "Camera permission denied");
+            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

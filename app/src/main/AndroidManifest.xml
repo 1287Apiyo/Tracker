@@ -74,10 +74,16 @@
         <activity
             android:name=".CategoriesActivity"
             android:exported="true" />
-        <activity android:name=".StatisticsActivity"
-            android:exported="true"/>
-
-
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="true" />
+        <!-- Add BudgetActivity -->
+        <activity
+            android:name=".BudgetDashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddBudgetActivity"
+            android:exported="true" />
         <!-- Meta-data -->
         <meta-data
             android:name="preloaded_fonts"
