@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Home Fragment -->
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.tracker.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/homeFragment"
+        android:name="com.example.tracker.Home"
+        android:label="Home">
 
+        <!-- Action to navigate to SettingsFragment -->
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settingsFragment" />
+
+        <!-- Action to navigate to ProfileFragment -->
+        <action
+            android:id="@+id/action_home_to_profile"
+            app:destination="@id/profileFragment" />
     </fragment>
+
+    <!-- Settings Fragment -->
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.tracker.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/settingsFragment"
+        android:name="com.example.tracker.SettingsFragment"
+        android:label="Settings">
 
+        <!-- Action to navigate back to HomeFragment -->
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_settings_to_home"
+            app:destination="@id/homeFragment" />
     </fragment>
+
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.tracker.ProfileFragment"
+        android:label="Profile">
+
+        <!-- Action to navigate back to HomeFragment -->
+        <action
+            android:id="@+id/action_profile_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
 </navigation>

@@ -50,7 +50,7 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
     private CategoriesAdapter categoriesAdapter;
     private List<Category> categoryList;
 
-    // **Newly Added: Button for Viewing Statistics**
+    // New: Button for Viewing Statistics
     private Button btnStatistics;
 
     @SuppressLint("MissingInflatedId")
@@ -91,7 +91,7 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
             startActivity(intent);
         });
 
-        // **Initialize and Set OnClickListener for the Statistics Button**
+        // Initialize and Set OnClickListener for the Statistics Button
         btnStatistics = findViewById(R.id.btnStatistics);
         btnStatistics.setOnClickListener(v -> {
             Log.d(TAG, "View Statistics button clicked");
@@ -200,7 +200,6 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
                 });
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -217,4 +216,5 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
             handler.postDelayed(() -> backPressedOnce = false, BACK_PRESS_INTERVAL);
         }
     }
+
 }

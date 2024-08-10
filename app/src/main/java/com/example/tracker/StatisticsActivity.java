@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     private WebView webView;
@@ -39,7 +40,7 @@ public class StatisticsActivity extends AppCompatActivity {
         buttonLoadChart.setOnClickListener(v -> {
             // Fetch data from ViewModel
             transactionViewModel.getAllExpenses().observe(this, expenses -> {
-                // Convert the data to JSON format
+                // Convert the data to JSON format with aggregation
                 String jsonData = convertExpensesToJson(expenses);
                 // Pass data to WebView
                 webView.evaluateJavascript("javascript:receiveData('" + jsonData + "')", null);
@@ -47,15 +48,25 @@ public class StatisticsActivity extends AppCompatActivity {
         });
     }
 
-    // Convert expenses to JSON
+    // Convert expenses to JSON with aggregation
     private String convertExpensesToJson(List<Expense> expenses) {
-        List<String> categories = new ArrayList<>();
-        List<Double> values = new ArrayList<>();
+        Map<String, Double> aggregatedData = new HashMap<>();
 
         for (Expense expense : expenses) {
-            categories.add(expense.getCategory()); // Ensure these methods exist
-            values.add(expense.getAmount()); // Ensure these methods exist
+            String category = expense.getCategory(); // Ensure this method exists
+            double amount = expense.getAmount(); // Ensure this method exists
+
+            // Aggregate amounts by category
+            if (aggregatedData.containsKey(category)) {
+                aggregatedData.put(category, aggregatedData.get(category) + amount);
+            } else {
+                aggregatedData.put(category, amount);
+            }
         }
+
+        // Prepare the data for the chart
+        List<String> categories = new ArrayList<>(aggregatedData.keySet());
+        List<Double> values = new ArrayList<>(aggregatedData.values());
 
         // Creating a JSON object
         Map<String, Object> data = new HashMap<>();
