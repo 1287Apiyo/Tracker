@@ -44,8 +44,7 @@ public class signup extends AppCompatActivity {
         usernameEditText = findViewById(R.id.signup_username_edit_text);
         emailEditText = findViewById(R.id.signup_email_edit_text);
         passwordEditText = findViewById(R.id.signup_password_edit_text);
-        confirmPasswordEditText = findViewById(R.id.confirm_password_edit_text);
-        phoneNumberEditText = findViewById(R.id.signup_phone_number_edit_text); // Added phone number field
+        confirmPasswordEditText = findViewById(R.id.signup_confirm_password_edit_text);
         signupButton = findViewById(R.id.signup_button);
         alreadyHaveAccountTextView = findViewById(R.id.already_have_account_textview);
 
@@ -91,10 +90,6 @@ public class signup extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(phoneNumber) || !Patterns.PHONE.matcher(phoneNumber).matches()) {
-            phoneNumberEditText.setError("Please enter a valid phone number");
-            return;
-        }
 
         // Firebase registration logic
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -103,7 +98,7 @@ public class signup extends AppCompatActivity {
                         // Sign up success, add user to Firestore and update UI
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            updateProfileAndAddToFirestore(user, username, phoneNumber);
+                            updateProfileAndAddToFirestore(user, username);
                         }
                     } else {
                         // If sign up fails, display a message to the user.
@@ -113,7 +108,7 @@ public class signup extends AppCompatActivity {
                 });
     }
 
-    private void updateProfileAndAddToFirestore(FirebaseUser user, String username, String phoneNumber) {
+    private void updateProfileAndAddToFirestore(FirebaseUser user, String username) {
         // Update Firebase Auth profile
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
@@ -123,17 +118,17 @@ public class signup extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Add user to Firestore
-                        addUserToFirestore(user, username, phoneNumber);
+                        addUserToFirestore(user, username);
                     }
                 });
     }
 
-    private void addUserToFirestore(FirebaseUser user, String username, String phoneNumber) {
+    private void addUserToFirestore(FirebaseUser user, String username ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userData = new HashMap<>();
         userData.put("username", username);
         userData.put("email", user.getEmail());
-        userData.put("phoneNumber", phoneNumber);
+
 
         db.collection("users").document(user.getUid())
                 .set(userData)

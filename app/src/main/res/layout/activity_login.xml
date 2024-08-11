@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintVertical_bias="0.1" />
 
-    <!-- New Username Field -->
+    <!-- Username Field -->
     <TextView
         android:id="@+id/username_textview"
         android:layout_width="wrap_content"
@@ -46,29 +46,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/username_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_username"
-    app:layout_constraintEnd_toStartOf="@+id/login_username_edit_text"
-    app:layout_constraintVertical_bias="0.5"
-    app:layout_constraintTop_toTopOf="@+id/login_username_edit_text"
-    app:layout_constraintBottom_toBottomOf="@+id/login_username_edit_text" />
-
     <EditText
         android:id="@+id/login_username_edit_text"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="Username"
         android:textColor="@color/white"
+        android:drawableStart="@drawable/ic_username"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@+id/username_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/username_icon"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <!-- Email Field -->
     <TextView
         android:id="@+id/email_textview"
         android:layout_width="wrap_content"
@@ -83,29 +77,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/email_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_email"
-    app:layout_constraintEnd_toStartOf="@+id/login_email_edit_text"
-    app:layout_constraintVertical_bias="0.5"
-    app:layout_constraintTop_toTopOf="@+id/login_email_edit_text"
-    app:layout_constraintBottom_toBottomOf="@+id/login_email_edit_text" />
-
     <EditText
         android:id="@+id/login_email_edit_text"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="Email address"
         android:textColor="@color/white"
+        android:drawableStart="@drawable/ic_email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/email_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/email_icon"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <!-- Password Field -->
     <TextView
         android:id="@+id/password_textview"
         android:layout_width="wrap_content"
@@ -120,38 +108,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/password_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/baseline_lock_24"
-    app:layout_constraintEnd_toStartOf="@+id/login_password_edit_text"
-    app:layout_constraintVertical_bias="0.5"
-    app:layout_constraintTop_toTopOf="@+id/login_password_edit_text"
-    app:layout_constraintBottom_toBottomOf="@+id/login_password_edit_text" />
-
     <EditText
         android:id="@+id/login_password_edit_text"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="Password"
         android:textColor="@color/white"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/password_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/password_icon"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:backgroundTint="#CD7F32"
         android:fontFamily="@font/inter"
         android:text="Log In"
-        android:textColor="#A9FFE4"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/login_password_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
