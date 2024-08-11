@@ -98,4 +98,5 @@ public class TransactionViewModel extends AndroidViewModel {
         // Update total balance
         totalBalance.setValue(totalIncomeValue - totalExpenseValue);
     }
+
 }

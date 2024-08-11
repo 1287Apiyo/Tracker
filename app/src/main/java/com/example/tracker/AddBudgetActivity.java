@@ -1,6 +1,6 @@
 package com.example.tracker;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.Serializable;
-
 public class AddBudgetActivity extends AppCompatActivity {
 
     private Spinner spinnerCategory;
@@ -22,20 +20,17 @@ public class AddBudgetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_budget); // Ensure this layout file exists
+        setContentView(R.layout.activity_add_budget);
 
-        // Initialize the views
         spinnerCategory = findViewById(R.id.spinnerCategory);
         budgetAmountEditText = findViewById(R.id.editTextBudgetAmount);
         buttonSaveBudget = findViewById(R.id.buttonSaveBudget);
 
-        // Setup the Spinner with categories
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.expense_sources, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapter);
 
-        // Set the OnClickListener for the save button
         buttonSaveBudget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,25 +44,32 @@ public class AddBudgetActivity extends AppCompatActivity {
         String budgetAmountStr = budgetAmountEditText.getText().toString().trim();
 
         if (category.equals("Select Category") || budgetAmountStr.isEmpty()) {
-            // Show a message if the input is incomplete
             Toast.makeText(AddBudgetActivity.this, "Please select a category and enter an amount", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int budgetAmount = Integer.parseInt(budgetAmountStr);
+        double budgetAmount = Double.parseDouble(budgetAmountStr);
+        String date = "";  // You can add a date picker to set the date.
 
-        // Create a new Budget object
-        Budget newBudget = new Budget(category, budgetAmount);
+        Budget newBudget = new Budget(budgetAmount, category, date);
 
-        // Send the new budget back to the BudgetDashboardActivity
-        Intent intent = new Intent();
-        intent.putExtra("newBudget", (Serializable) newBudget);
-        setResult(RESULT_OK, intent);
+        new InsertBudgetAsyncTask(BudgetDatabase.getInstance(getApplicationContext()).budgetDao()).execute(newBudget);
 
-        // Show a success message
         Toast.makeText(AddBudgetActivity.this, "Budget added successfully", Toast.LENGTH_SHORT).show();
-
-        // Finish the activity and go back to the dashboard
         finish();
+    }
+
+    private static class InsertBudgetAsyncTask extends AsyncTask<Budget, Void, Void> {
+        private BudgetDao budgetDao;
+
+        private InsertBudgetAsyncTask(BudgetDao budgetDao) {
+            this.budgetDao = budgetDao;
+        }
+
+        @Override
+        protected Void doInBackground(Budget... budgets) {
+            budgetDao.insert(budgets[0]);
+            return null;
+        }
     }
 }

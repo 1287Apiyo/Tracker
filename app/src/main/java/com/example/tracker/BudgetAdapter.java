@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetViewHolder> {
 
-    private final List<Budget> budgetList;
+    private List<Budget> budgetList;
 
     public BudgetAdapter(List<Budget> budgetList) {
         this.budgetList = budgetList;
@@ -31,7 +31,6 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
     public void onBindViewHolder(@NonNull BudgetViewHolder holder, int position) {
         Budget budget = budgetList.get(position);
 
-        // Format the amount as KES
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "KE"));
         String formattedAmount = currencyFormat.format(budget.getAmount());
 
@@ -42,6 +41,11 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
     @Override
     public int getItemCount() {
         return budgetList.size();
+    }
+
+    public void setBudgets(List<Budget> budgets) {
+        this.budgetList = budgets;
+        notifyDataSetChanged();
     }
 
     public static class BudgetViewHolder extends RecyclerView.ViewHolder {

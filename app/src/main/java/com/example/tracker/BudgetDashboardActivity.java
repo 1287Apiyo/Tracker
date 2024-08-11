@@ -2,23 +2,25 @@ package com.example.tracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetDashboardActivity extends AppCompatActivity {
 
     private static final int ADD_BUDGET_REQUEST_CODE = 1;
     private RecyclerView recyclerViewBudgets;
     private BudgetAdapter budgetAdapter;
-    private ArrayList<Budget> budgetList;
+    private BudgetViewModel budgetViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,43 +30,37 @@ public class BudgetDashboardActivity extends AppCompatActivity {
         recyclerViewBudgets = findViewById(R.id.recyclerViewBudgets);
         Button buttonAddBudget = findViewById(R.id.buttonAddBudget);
 
-        budgetList = new ArrayList<>();
-        budgetAdapter = new BudgetAdapter(budgetList);
         recyclerViewBudgets.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewBudgets.setHasFixedSize(true);
+
+        budgetAdapter = new BudgetAdapter(new ArrayList<>());
         recyclerViewBudgets.setAdapter(budgetAdapter);
 
-        buttonAddBudget.setOnClickListener(new View.OnClickListener() {
+        // Initialize the ViewModel
+        budgetViewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
+
+        // Observe the LiveData from the ViewModel
+        budgetViewModel.getAllBudgets().observe(this, new Observer<List<Budget>>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BudgetDashboardActivity.this, AddBudgetActivity.class);
-                startActivityForResult(intent, ADD_BUDGET_REQUEST_CODE);
+            public void onChanged(List<Budget> budgets) {
+                // Update the RecyclerView when the data changes
+                budgetAdapter.setBudgets(budgets);
             }
         });
 
-        loadBudgets();
+        buttonAddBudget.setOnClickListener(v -> {
+            Intent intent = new Intent(BudgetDashboardActivity.this, AddBudgetActivity.class);
+            startActivityForResult(intent, ADD_BUDGET_REQUEST_CODE);
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_BUDGET_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Budget newBudget = (Budget) data.getSerializableExtra("newBudget");
-            if (newBudget != null) {
-                budgetList.add(newBudget);
-                budgetAdapter.notifyDataSetChanged();
-                Toast.makeText(this, "Budget updated successfully", Toast.LENGTH_SHORT).show();
-            }
+        if (requestCode == ADD_BUDGET_REQUEST_CODE && resultCode == RESULT_OK) {
+            // No need to manually reload budgets; LiveData handles it
+            Toast.makeText(this, "Budget added successfully", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void loadBudgets() {
-        // Load budgets from the database or data source
-        // Example:
-        budgetList.add(new Budget("Groceries", 5000));
-        budgetList.add(new Budget("Rent", 15000));
-        budgetList.add(new Budget("Entertainment", 3000));
-
-        budgetAdapter.notifyDataSetChanged();
     }
 }

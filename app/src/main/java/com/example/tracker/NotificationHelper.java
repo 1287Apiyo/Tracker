@@ -16,38 +16,34 @@ public class NotificationHelper {
     private static final String CHANNEL_ID = "budget_channel";
 
     @SuppressLint("MissingPermission")
-    public static void sendBudgetExceededNotification(Context context, String category) {
-        String message = "You have exceeded your budget for " + category;
+    public static void sendNotification(Context context, String category, double overspentAmount) {
+        createNotificationChannel(context);
 
-        // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(context, BudgetDashboardActivity.class);
-        PendingIntent pendingIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // Use mutability flag for Android 12 and above
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        } else {
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification) // Ensure this drawable exists
-                .setContentTitle("Budget Exceeded")
-                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Budget Overspent")
+                .setContentText("Category: " + category + " | Amount: " + overspentAmount)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(1, builder.build());
+    }
 
+    private static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Budget Notifications",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
+            CharSequence name = "Budget Notifications";
+            String description = "Channel for budget notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
-        notificationManager.notify(1, builder.build());
     }
 }
