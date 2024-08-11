@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TransactionsActivity extends AppCompatActivity implements TransactionsAdapter.OnTransactionDeleteListener {
@@ -16,6 +17,7 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
     private RecyclerView recyclerView;
     private TransactionsAdapter transactionsAdapter;
     private DatabaseHelper databaseHelper;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
 
         recyclerView = findViewById(R.id.recyclerViewTransactions);
         FloatingActionButton fabAddTransaction = findViewById(R.id.fabAddTransaction);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -37,6 +40,29 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
                 Intent intent = new Intent(TransactionsActivity.this, add_transaction.class);
                 startActivityForResult(intent, REQUEST_CODE_ADD_TRANSACTION); // Start the activity for result
             }
+        });
+
+        // BottomNavigationView initialization and setup
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_transactions); // Set 'Transactions' as selected
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(TransactionsActivity.this, Home.class));
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(TransactionsActivity.this, add.class));
+                return true;
+            } else if (id == R.id.nav_transactions) {
+                // Current activity, no action needed
+                return true;
+            } else if (id == R.id.nav_statistics) {
+                startActivity(new Intent(TransactionsActivity.this, StatisticsActivity.class));
+                return true;
+            }
+            return false;
         });
     }
 

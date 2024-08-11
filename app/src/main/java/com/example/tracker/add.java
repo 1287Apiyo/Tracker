@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -108,7 +109,35 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
             Intent intent = new Intent(add.this, BudgetDashboardActivity.class);
             startActivity(intent);
         });
+
+        // Initialize BottomNavigationView and handle navigation
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Highlight the correct menu item
+        bottomNavigationView.setSelectedItemId(R.id.nav_add);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(add.this, Home.class));
+                return true;
+            } else if (id == R.id.nav_add) {
+                // Current activity, no action needed
+                return true;
+            } else if (id == R.id.nav_transactions) {
+                startActivity(new Intent(add.this, TransactionsActivity.class));
+                return true;
+            } else if (id == R.id.nav_statistics) {
+                startActivity(new Intent(add.this, StatisticsActivity.class));
+                return true;
+            }
+            return false;
+        });
     }
+
+
+
+
 
     private void showAddIncomeDialog() {
         Log.d(TAG, "Showing Add Income Dialog");

@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="24dp"/>
+                android:layout_marginTop="24dp" />
 
             <!-- Income Button -->
             <RelativeLayout
@@ -47,7 +47,7 @@
                     android:layout_height="match_parent"
                     android:background="#A9FFE4"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"/>
+                    android:theme="?attr/actionBarTheme" />
 
                 <ImageView
                     android:id="@+id/iconIncome"
@@ -69,7 +69,7 @@
                     android:fontFamily="@font/inter_bold"
                     android:text="Add Income"
                     android:textColor="#CD7F32"
-                    android:textSize="11sp"/>
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <!-- Expense Button -->
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:background="#CD7F32"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"/>
+                    android:theme="?attr/actionBarTheme" />
 
                 <ImageView
                     android:id="@+id/iconExpense"
@@ -110,7 +110,7 @@
                     android:text="Add Expenses"
                     android:textColor="#A9FFE4"
                     android:layout_marginBottom="15dp"
-                    android:textSize="11sp"/>
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <!-- View Budgets Button -->
@@ -126,7 +126,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="36dp"
                 android:layout_marginEnd="300dp"
-                android:layout_gravity="start"/>
+                android:layout_gravity="start" />
 
             <!-- Camera Button -->
             <RelativeLayout
@@ -146,7 +146,7 @@
                     android:layout_height="match_parent"
                     android:background="#000000"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"/>
+                    android:theme="?attr/actionBarTheme" />
 
                 <ImageView
                     android:id="@+id/iconCamera"
@@ -169,7 +169,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/CameraLayout"/>
+                app:layout_constraintTop_toBottomOf="@id/CameraLayout" />
 
             <!-- Scrollable Section: RecyclerViews -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,7 +187,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:padding="16dp"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical" />
 
                 <!-- RecyclerView for Expense Transactions -->
                 <androidx.recyclerview.widget.RecyclerView
@@ -198,11 +198,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:padding="16dp"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation View -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

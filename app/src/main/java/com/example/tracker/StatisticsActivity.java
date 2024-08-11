@@ -1,5 +1,6 @@
 package com.example.tracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class StatisticsActivity extends AppCompatActivity {
 
     private WebView webView;
+    private Button buttonLoadChart;
     private TransactionViewModel transactionViewModel;
 
     @Override
@@ -26,7 +29,7 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         webView = findViewById(R.id.webView);
-        Button buttonLoadChart = findViewById(R.id.buttonLoadChart);
+        buttonLoadChart = findViewById(R.id.buttonLoadChart);
 
         // Initialize WebView
         webView.getSettings().setJavaScriptEnabled(true);
@@ -45,6 +48,29 @@ public class StatisticsActivity extends AppCompatActivity {
                 // Pass data to WebView
                 webView.evaluateJavascript("javascript:receiveData('" + jsonData + "')", null);
             });
+        });
+
+        // Initialize BottomNavigationView and set up the listener
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_statistics); // Set 'Statistics' as selected
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(StatisticsActivity.this, Home.class));
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(StatisticsActivity.this, add.class));
+                return true;
+            } else if (id == R.id.nav_transactions) {
+                startActivity(new Intent(StatisticsActivity.this, TransactionsActivity.class));
+                return true;
+            } else if (id == R.id.nav_statistics) {
+                // Current activity, no action needed
+                return true;
+            }
+            return false;
         });
     }
 
