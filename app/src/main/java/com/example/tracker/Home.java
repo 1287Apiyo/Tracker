@@ -104,13 +104,6 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         recyclerViewRecentTransactions.setLayoutManager(new LinearLayoutManager(this));
         loadRecentTransactions();
 
-        // Retrieve username from SharedPreferences
-        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String username = preferences.getString("username", "User"); // Default to "User" if no username is found
-
-        // Set the welcome message
-        textWelcome = findViewById(R.id.textWelcome);
-        textWelcome.setText("Welcome " + username);
 
         // Initialize TextViews for balance, income, and expenses
         balanceTextView = findViewById(R.id.balanceTextView);
@@ -200,9 +193,9 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
                 });
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (backPressedOnce) {
             // Navigate to AddBalanceActivity
             Intent intent = new Intent(Home.this, AddBalanceActivity.class);
@@ -216,5 +209,7 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
             handler.postDelayed(() -> backPressedOnce = false, BACK_PRESS_INTERVAL);
         }
     }
+
+
 
 }

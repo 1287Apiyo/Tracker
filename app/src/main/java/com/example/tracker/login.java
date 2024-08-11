@@ -1,6 +1,7 @@
 package com.example.tracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,15 +38,6 @@ public class login extends AppCompatActivity {
         signUpTextView = findViewById(R.id.dont_have_account_textview);
         forgotPasswordTextView = findViewById(R.id.forgot_password_textview);
 
-        // Check if user is already logged in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // User is already logged in, redirect to the AddBalanceActivity
-            String username = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : currentUser.getEmail();
-            redirectToAddBalanceActivity(username); // Pass username here
-            return;
-        }
-
         // Set up button click listeners
         loginButton.setOnClickListener(v -> handleLogin());
         signUpTextView.setOnClickListener(v -> handleSignUp());
@@ -70,7 +62,15 @@ public class login extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         String username = user != null ? user.getDisplayName() : email; // Retrieve username
-                        redirectToAddBalanceActivity(username); // Pass the username here
+                        saveUsernameInPreferences(username); // Save username in SharedPreferences
+
+                        // Update login status
+                        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("is_logged_in", true);
+                        editor.apply();
+
+                        redirectToAddBalanceActivity();
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -78,9 +78,15 @@ public class login extends AppCompatActivity {
                 });
     }
 
-    private void redirectToAddBalanceActivity(String username) {
+    private void saveUsernameInPreferences(String username) {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("username", username);
+        editor.apply();
+    }
+
+    private void redirectToAddBalanceActivity() {
         Intent intent = new Intent(login.this, AddBalanceActivity.class);
-        intent.putExtra("username", username); // Pass the username
         startActivity(intent);
         finish(); // Close the login activity
     }

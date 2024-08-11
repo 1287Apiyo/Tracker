@@ -30,14 +30,14 @@ public class AddBalanceActivity extends AppCompatActivity {
         // Load and display current balance
         loadCurrentBalance();
 
-        // Get the username from Intent extras
-        String username = getIntent().getStringExtra("username");
-        if (username != null) {
-            welcomeTextView.setText("Welcome, " + username + "!");
-        }
+        // Retrieve the username from SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String username = preferences.getString("username", "User"); // Default to "User" if no username is found
+
+        // Display the welcome message
+        welcomeTextView.setText("Welcome, " + username + "!");
 
         saveButton.setOnClickListener(v -> saveOrUpdateBalance());
-
         resetButton.setOnClickListener(v -> saveOrUpdateBalance());
     }
 
