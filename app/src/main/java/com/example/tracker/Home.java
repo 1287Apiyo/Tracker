@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -67,13 +67,6 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
 
         databaseHelper = new DatabaseHelper(this);
 
-        // Floating Action Button to add a transaction
-        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(v -> {
-            Log.d(TAG, "fabAdd clicked");
-            Intent intent = new Intent(Home.this, add.class);
-            startActivity(intent);
-        });
 
         // TextView to show categories in a dialog
         TextView viewCategories = findViewById(R.id.textViewCategories);
@@ -103,7 +96,6 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
         recyclerViewRecentTransactions = findViewById(R.id.recyclerViewTransactions);
         recyclerViewRecentTransactions.setLayoutManager(new LinearLayoutManager(this));
         loadRecentTransactions();
-
 
         // Initialize TextViews for balance, income, and expenses
         balanceTextView = findViewById(R.id.balanceTextView);
@@ -137,6 +129,27 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
 
         // Fetch categories from Firestore
         fetchCategoriesFromFirestore();
+
+        // BottomNavigationView initialization and setup
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                // Handle Home navigation
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(Home.this, add.class));
+                return true;
+            } else if (id == R.id.nav_transactions) {
+                startActivity(new Intent(Home.this, TransactionsActivity.class));
+                return true;
+            } else if (id == R.id.nav_statistics) {
+                startActivity(new Intent(Home.this, StatisticsActivity.class));
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -209,7 +222,4 @@ public class Home extends AppCompatActivity implements TransactionsAdapter.OnTra
             handler.postDelayed(() -> backPressedOnce = false, BACK_PRESS_INTERVAL);
         }
     }
-
-
-
 }

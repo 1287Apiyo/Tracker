@@ -65,30 +65,25 @@
         android:textColor="#CD7F32"
         android:textSize="14sp" />
 
-    <!-- Floating Action Button to Add -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/black"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#A9FFE4"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="@android:color/black"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:menu="@menu/bottom_nav_menu" />
+
 
     <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/btnStatistics"
-        android:layout_above="@id/fabAdd"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        tools:ignore="NotSibling">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -258,6 +253,11 @@
                 android:layout_marginTop="16dp"
                 android:padding="8dp"
                 android:background="#000000" />
+
         </LinearLayout>
+
     </ScrollView>
+
+
+
 </RelativeLayout>

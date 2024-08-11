@@ -1,46 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<nav xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Home Fragment -->
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.tracker.Home"
-        android:label="Home">
+        android:name="com.example.tracker.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
 
-        <!-- Action to navigate to SettingsFragment -->
-        <action
-            android:id="@+id/action_home_to_settings"
-            app:destination="@id/settingsFragment" />
-
-        <!-- Action to navigate to ProfileFragment -->
-        <action
-            android:id="@+id/action_home_to_profile"
-            app:destination="@id/profileFragment" />
-    </fragment>
-
-    <!-- Settings Fragment -->
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.tracker.SettingsFragment"
-        android:label="Settings">
+        android:id="@+id/addFragment"
+        android:name="com.example.tracker.AddFragment"
+        android:label="Add"
+        tools:layout="@layout/fragment_add" />
 
-        <!-- Action to navigate back to HomeFragment -->
-        <action
-            android:id="@+id/action_settings_to_home"
-            app:destination="@id/homeFragment" />
-    </fragment>
-
-    <!-- Profile Fragment -->
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.tracker.ProfileFragment"
-        android:label="Profile">
+        android:id="@+id/transactionsFragment"
+        android:name="com.example.tracker.TransactionsFragment"
+        android:label="Transactions"
+        tools:layout="@layout/fragment_transactions" />
 
-        <!-- Action to navigate back to HomeFragment -->
-        <action
-            android:id="@+id/action_profile_to_home"
-            app:destination="@id/homeFragment" />
-    </fragment>
+    <!-- Add other fragments here -->
 
-</navigation>
+</nav>
