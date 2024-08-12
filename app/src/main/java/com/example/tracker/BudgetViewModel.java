@@ -26,4 +26,5 @@ public class BudgetViewModel extends AndroidViewModel {
     public void insert(Budget budget) {
         budgetRepository.insert(budget);
     }
+
 }

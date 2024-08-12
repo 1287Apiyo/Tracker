@@ -152,6 +152,16 @@ public class add extends AppCompatActivity implements IncomeAdapter.OnItemClickL
     }
 
     @Override
+    public void onIncomeClick(Income income) {
+
+    }
+
+    @Override
+    public void onExpenseClick(Expense expense) {
+
+    }
+
+    @Override
     public void onDeleteClick(Income income) {
         // Handle delete income action
         transactionViewModel.deleteIncome(income);

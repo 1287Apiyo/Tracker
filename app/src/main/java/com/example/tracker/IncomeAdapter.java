@@ -75,6 +75,10 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.IncomeView
     }
 
     public interface OnItemClickListener {
+        void onIncomeClick(Income income);
+
+        void onExpenseClick(Expense expense);
+
         void onDeleteClick(Income income);
     }
 }
