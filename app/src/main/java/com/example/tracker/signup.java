@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 public class signup extends AppCompatActivity {
 
-    private EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText, phoneNumberEditText;
+    private EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private Button signupButton;
     private TextView alreadyHaveAccountTextView;
     private FirebaseAuth mAuth;
@@ -62,7 +62,6 @@ public class signup extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-        String phoneNumber = phoneNumberEditText.getText().toString().trim();
 
         // Input validation
         if (TextUtils.isEmpty(username)) {
