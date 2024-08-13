@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Budget Amount"
+            android:textColor="#FFFFFF"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"

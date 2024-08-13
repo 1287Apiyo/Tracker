@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="#808482">
+    android:background="#CD7F32">
 
     <TextView
         android:id="@+id/textViewCategory"
@@ -18,7 +18,7 @@
         android:id="@+id/textViewAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="#A9FFE4"
         android:textSize="16sp"
         android:layout_weight="1" />
 
@@ -36,7 +36,7 @@
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/baseline_delete_24"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/delete" />
 </LinearLayout>

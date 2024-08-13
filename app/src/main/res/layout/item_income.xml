@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="#808482">
+    android:background="#A9FFE4">
 
     <TextView
         android:id="@+id/textViewCategory"
@@ -17,7 +17,7 @@
         android:id="@+id/textViewAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:textColor="#CD7F32"
         android:textSize="16sp"
         android:layout_weight="1" />
 
