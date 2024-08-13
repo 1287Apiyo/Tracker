@@ -73,7 +73,8 @@ public class login extends AppCompatActivity {
                         redirectToAddBalanceActivity();
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Authentication failed.";
+                        Toast.makeText(login.this, "Authentication failed: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
     }
