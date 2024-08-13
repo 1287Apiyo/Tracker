@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AddBalanceActivity extends AppCompatActivity {
 
     private EditText balanceEditText;
-    private Button saveButton, resetButton;
+    private Button saveButton, resetButton, proceedButton;
     private TextView currentBalanceTextView, welcomeTextView;
 
     @Override
@@ -24,6 +24,7 @@ public class AddBalanceActivity extends AppCompatActivity {
         balanceEditText = findViewById(R.id.balance_edit_text);
         saveButton = findViewById(R.id.save_button);
         resetButton = findViewById(R.id.reset_button);
+        proceedButton = findViewById(R.id.proceed_button); // New proceed button
         currentBalanceTextView = findViewById(R.id.current_balance_text_view);
         welcomeTextView = findViewById(R.id.welcome_text_view);
 
@@ -39,6 +40,7 @@ public class AddBalanceActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(v -> saveOrUpdateBalance());
         resetButton.setOnClickListener(v -> saveOrUpdateBalance());
+        proceedButton.setOnClickListener(v -> redirectToHomeActivity()); // Handle proceed button click
     }
 
     private void loadCurrentBalance() {

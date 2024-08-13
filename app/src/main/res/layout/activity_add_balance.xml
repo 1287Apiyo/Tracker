@@ -34,7 +34,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/baseline_tag_faces_24"
-            android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"/>
 
             <TextView
                 android:id="@+id/welcome_text_view"
@@ -101,6 +101,18 @@
             android:backgroundTint="#CD7F32"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp"/>
+
+        <!-- Proceed Button -->
+        <Button
+            android:id="@+id/proceed_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Proceed Without Re-setting Balance"
+            android:fontFamily="@font/inter_semibold"
+            android:backgroundTint="#A9FFE4"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp"/>
+
     </LinearLayout>
 
     <!-- Blurry logo background image at the bottom -->
