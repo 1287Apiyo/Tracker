@@ -26,9 +26,21 @@ public interface TransactionDao {
     @Insert
     void insertExpense(Expense expense);
 
+    @Insert
+    void insertIncomes(List<Income> incomes); // Method to insert multiple incomes
+
+    @Insert
+    void insertExpenses(List<Expense> expenses); // Method to insert multiple expenses
+
     @Delete
     void deleteIncome(Income income);
 
     @Delete
     void deleteExpense(Expense expense);
+
+    @Query("DELETE FROM income_table")
+    void deleteAllIncomes(); // Method to delete all incomes
+
+    @Query("DELETE FROM expense_table")
+    void deleteAllExpenses(); // Method to delete all expenses
 }

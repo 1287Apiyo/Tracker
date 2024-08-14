@@ -33,7 +33,11 @@ public class BudgetDashboardActivity extends AppCompatActivity {
         recyclerViewBudgets.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewBudgets.setHasFixedSize(true);
 
-        budgetAdapter = new BudgetAdapter(new ArrayList<>());
+        budgetAdapter = new BudgetAdapter(new ArrayList<>(), budget -> {
+            // Handle delete action
+            budgetViewModel.delete(budget);
+            Toast.makeText(BudgetDashboardActivity.this, "Budget deleted successfully", Toast.LENGTH_SHORT).show();
+        });
         recyclerViewBudgets.setAdapter(budgetAdapter);
 
         // Initialize the ViewModel

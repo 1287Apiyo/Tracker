@@ -22,11 +22,13 @@ public class BudgetRepository {
         new InsertBudgetAsyncTask(budgetDao).execute(budget);
     }
 
+    public void delete(Budget budget) {
+        new DeleteBudgetAsyncTask(budgetDao).execute(budget);
+    }
+
     public LiveData<List<Budget>> getAllBudgets() {
         return allBudgets;
     }
-
-
 
     private static class InsertBudgetAsyncTask extends AsyncTask<Budget, Void, Void> {
         private BudgetDao budgetDao;
@@ -38,6 +40,20 @@ public class BudgetRepository {
         @Override
         protected Void doInBackground(Budget... budgets) {
             budgetDao.insert(budgets[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteBudgetAsyncTask extends AsyncTask<Budget, Void, Void> {
+        private BudgetDao budgetDao;
+
+        private DeleteBudgetAsyncTask(BudgetDao budgetDao) {
+            this.budgetDao = budgetDao;
+        }
+
+        @Override
+        protected Void doInBackground(Budget... budgets) {
+            budgetDao.delete(budgets[0]);
             return null;
         }
     }

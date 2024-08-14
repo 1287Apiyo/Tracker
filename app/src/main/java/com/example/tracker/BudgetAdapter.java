@@ -3,6 +3,7 @@ package com.example.tracker;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,11 @@ import java.util.Locale;
 public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetViewHolder> {
 
     private List<Budget> budgetList;
+    private OnDeleteClickListener onDeleteClickListener;
 
-    public BudgetAdapter(List<Budget> budgetList) {
+    public BudgetAdapter(List<Budget> budgetList, OnDeleteClickListener onDeleteClickListener) {
         this.budgetList = budgetList;
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
@@ -36,6 +39,11 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
 
         holder.textViewCategory.setText(budget.getCategory());
         holder.textViewAmount.setText(formattedAmount);
+        holder.imageViewDelete.setOnClickListener(v -> {
+            if (onDeleteClickListener != null) {
+                onDeleteClickListener.onDeleteClick(budget);
+            }
+        });
     }
 
     @Override
@@ -48,14 +56,20 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
         notifyDataSetChanged();
     }
 
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Budget budget);
+    }
+
     public static class BudgetViewHolder extends RecyclerView.ViewHolder {
         TextView textViewCategory;
         TextView textViewAmount;
+        ImageView imageViewDelete;
 
         public BudgetViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewCategory = itemView.findViewById(R.id.textViewCategory);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
+            imageViewDelete = itemView.findViewById(R.id.imageViewDelete); // Make sure to add this in item_budget.xml
         }
     }
 }
